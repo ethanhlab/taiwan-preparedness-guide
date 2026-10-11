@@ -1,14 +1,32 @@
-# 台灣防災準備指南 (Taiwan Disaster Preparedness Guide)
+# 台灣防災準備指南 | Taiwan Disaster Preparedness Guide
 
->  **[WIP] 本專案正在持續建構與補充內容中，歡迎提供建議！**
-
-##  關於本專案
-本專案旨在提供一份適合台灣在地情境的系統化防災與緊急應變指南。內容涵蓋個人與家庭避難包準備、各類災害（地震、颱風、水災）應變流程、全台避難收容處所與官方通訊資源彙整，協助大家在面對突發災害時能迅速反應、確保安全。
-
-##  核心重點內容
-- **急難救助包清單：** 個人與家庭必備物資檢查表（Checklist）
-- **災害應變步驟：** 地震、颱風、水災與火災等防護指引
-- **緊急避難與資源：** 全台避難收容處所查詢、在地防災地圖與重要通訊錄
+> [WIP] 專案建構中。
+> Work in progress.
 
 ---
-*(歡迎透過Issue或Pull Request一起補充與完善台灣的在地防災資訊！)*
+
+## 關於本專案 / About
+
+本專案整理適合台灣在地情境的防災與應變資訊，涵蓋個人與家庭急難救助包清單、常見災害處置流程，以及全台避難收容處所與官方聯絡資源。
+
+This repository provides a practical disaster preparedness guide tailored for Taiwan, including emergency kit checklists, response procedures for common natural disasters, and local shelter resources.
+
+---
+
+## 內容重點 / Key Features
+
+- **急難救助包清單 / Emergency Kit Checklist**  
+  個人與家庭必備物資檢查表。  
+  Essential emergency supplies checklist for individuals and families.
+
+- **災害應變指引 / Disaster Response**  
+  地震、颱風、水災與火災之應變處置步驟。  
+  Response steps for earthquakes, typhoons, floods, and fires.
+
+- **避難與緊急資源 / Shelters & Resources**  
+  全台避難收容處所查詢與重要緊急聯絡電話彙整。  
+  Shelter location lookup and emergency contact list in Taiwan.
+
+---
+
+歡迎提供建議與補充在地防災資訊。Suggestions and contributions are welcome.
