@@ -1,4 +1,4 @@
-# 🇹🇼 台灣防災準備指南 (Taiwan Disaster Preparedness Guide)
+# 台灣防災準備指南 (Taiwan Disaster Preparedness Guide)
 
 >  **[WIP] 本專案正在持續建構與補充內容中，歡迎提供建議！**
 
