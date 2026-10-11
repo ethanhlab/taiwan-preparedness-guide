@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="author" content="Samuel Huang">
+<title>防災準備指南</title>
+<style>
+:root{--bg:#f2f6f7;--fg:#12262b;--mut:#506a70;--card:#fff;--line:#cfdcdf;--pri:#0f5c6e;--acc:#e8590c;--on:#fff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1b1f;--fg:#e6f0f2;--mut:#9ab3b9;--card:#16282d;--line:#2a4349;--pri:#5cc1d6;--acc:#ff8a4c;--on:#0e1b1f}}
+:root[data-theme="dark"]{--bg:#0e1b1f;--fg:#e6f0f2;--mut:#9ab3b9;--card:#16282d;--line:#2a4349;--pri:#5cc1d6;--acc:#ff8a4c;--on:#0e1b1f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+main{max-width:760px;margin:0 auto;padding:0 20px 60px}
+header{padding:48px 0 28px}
+h1{font-size:clamp(2rem,7vw,3rem);line-height:1.2;margin:0 0 12px;font-weight:800}
+header p{color:var(--mut);margin:0;max-width:34em}
+h2{font-size:1.4rem;margin:44px 0 6px}
+.sub{color:var(--mut);margin:0 0 16px;font-size:.95rem}
+.sos{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.sos a{flex:1 1 150px;text-decoration:none;color:var(--on);background:var(--pri);border-radius:10px;padding:12px 16px;font-weight:700}
+.sos a:first-child{background:var(--acc)}
+.sos small{display:block;font-weight:400;opacity:.9}
+.zhp{font-weight:700}
+html[lang="ja"] h1{font-size:clamp(1.6rem,5.6vw,2.4rem)}
+.jaonly,.koonly,.enonly,.zhonly{display:none}
+html[lang="en"] .enonly,html[lang="zh-Hant"] .zhonly{display:block}
+.d h4{margin:14px 0 4px}
+html[lang="ja"] .jaonly,html[lang="ko"] .koonly{display:block}
+.d a{color:var(--pri);word-break:break-all}
+#dlg{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);padding:20px}
+#dlg[hidden]{display:none}
+#dlg .box{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:14px;padding:22px;max-width:340px;width:100%;text-align:center}
+#dlg h3{margin:0 0 6px;font-size:1.1rem}
+#dlg p{margin:4px 0;color:var(--mut)}
+#dlgNum{font-size:2.2rem;font-weight:800;color:var(--fg);margin:10px 0 0;word-break:break-all}
+#dlgSvc{margin:0 0 8px;font-weight:700;color:var(--pri)}
+#dlg .btns{display:flex;gap:10px;margin-top:18px}
+#dlg button{flex:1;font:inherit;font-weight:700;border-radius:10px;padding:12px;cursor:pointer;border:2px solid var(--line);background:var(--bg);color:var(--fg)}
+#dlg #dlgY{background:var(--acc);border-color:var(--acc);color:var(--on)}
+.lang{text-align:right;padding-top:14px}
+.lang select{font:inherit;font-weight:700;color:var(--pri);background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 12px;cursor:pointer}
+.tabs{display:flex;gap:2px;overflow-x:auto;border-bottom:2px solid var(--line)}
+.tabs button{font:inherit;font-weight:700;background:none;border:0;color:var(--mut);padding:10px 14px;white-space:nowrap;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected="true"]{color:var(--pri);border-color:var(--pri)}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.panel{background:var(--card);border:1px solid var(--line);border-top:0;padding:8px 20px 18px;border-radius:0 0 10px 10px}
+.panel h3{margin:18px 0 4px;font-size:1.05rem;color:var(--pri)}
+.panel ul{margin:0;padding-left:1.2em}
+.panel[hidden]{display:none}
+.kit{list-style:none;padding:0;margin:0}
+.kit li{background:var(--card);border:1px solid var(--line);border-radius:8px;margin-bottom:8px}
+.kit label{display:flex;gap:12px;align-items:center;padding:12px 14px;cursor:pointer}
+.kit input{width:20px;height:20px;accent-color:var(--pri);flex:none}
+.kit input:checked+span{color:var(--mut);text-decoration:line-through}
+.bar{height:10px;background:var(--line);border-radius:5px;overflow:hidden;margin:6px 0 16px}
+.bar i{display:block;height:100%;width:0;background:var(--pri);transition:width .25s}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:6px 20px 16px}
+.plan label{display:block;margin-top:12px;font-weight:700}
+.plan input,.plan textarea{width:100%;font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;margin-top:4px}
+details{background:var(--card);border:1px solid var(--line);border-radius:8px;margin-bottom:8px}
+summary{padding:12px 14px;font-weight:700;cursor:pointer}
+details[open] summary{color:var(--pri)}
+.d{padding:0 16px 14px}
+.d h4{margin:14px 0 4px;font-size:.98rem}
+.d ul{margin:0;padding-left:1.2em}
+.tw{overflow-x:auto;margin:6px 0}
+table{border-collapse:collapse;min-width:520px;width:100%;font-size:.92rem}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--line)}
+th{color:var(--pri);white-space:nowrap}
+.note{background:var(--bg);border-left:4px solid var(--acc);padding:8px 12px;margin:10px 0 0;border-radius:4px;font-size:.92rem}
+.pdfs{list-style:none;padding:0;margin:0 0 8px}
+.pdfs li{background:var(--card);border:1px solid var(--line);border-radius:8px;margin-bottom:8px}
+.pdfs a{display:block;padding:12px 14px;color:inherit;text-decoration:none}
+.pdfs a:hover b{text-decoration:underline}
+.pdfs b{color:var(--pri)}
+.pdfs small{display:block;color:var(--mut);margin-top:2px;line-height:1.5}
+.tag{display:inline-block;font-size:.75rem;font-weight:700;color:var(--on);background:var(--pri);border-radius:4px;padding:0 6px;margin-right:6px}
+h3.g{font-size:1rem;margin:20px 0 8px}
+footer{margin-top:44px;color:var(--mut);font-size:.85rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="lang"><select id="lg" aria-label="Language"><option value="zh">中文</option><option value="en">English</option><option value="ja">日本語</option><option value="ko">한국어</option></select></div>
+<h1><span data-i="0">災前準備好，</span><br><span data-i="1">災時才不慌</span></h1>
+<p><span data-i="2">三件事：知道怎麼躲、備好物資、和家人說好集合地點。花十分鐘，現在就開始。</span></p>
+<div class="sos">
+<a href="tel:119">119<small><span data-i="3">消防・火警・救護</span></small></a>
+<a href="tel:110">110<small><span data-i="4">警察・報案・緊急求助</span></small></a>
+<a href="tel:118">118<small><span data-i="5">海巡・報案・海上求助</span></small></a>
+<a href="tel:1991">1991<small><span data-i="6">災時留言平台</span></small></a>
+</div>
+</header>
+
+<h2><span data-i="7">發生災害時怎麼做</span></h2>
+<p class="sub"><span data-i="8">選擇災害類型，查看該做與不該做的事。</span></p>
+<div class="tabs" role="tablist">
+<button role="tab" aria-selected="true" aria-controls="p0" id="t0"><span data-i="9">地震</span></button>
+<button role="tab" aria-selected="false" aria-controls="p1" id="t1"><span data-i="10">海嘯</span></button>
+<button role="tab" aria-selected="false" aria-controls="p2" id="t2"><span data-i="11">颱風</span></button>
+<button role="tab" aria-selected="false" aria-controls="p3" id="t3"><span data-i="12">水災</span></button>
+<button role="tab" aria-selected="false" aria-controls="p4" id="t4"><span data-i="13">戰爭</span></button>
+</div>
+<section class="panel" id="p0" role="tabpanel" aria-labelledby="t0">
+<h3><span data-i="14">搖晃時</span></h3>
+<ul><li><span data-i="15">趴下、掩護、穩住：趴低，躲在堅固桌下，護住頭頸。</span></li><li><span data-i="16">遠離窗戶、櫥櫃與吊燈。</span></li><li><span data-i="17">在戶外時，遠離建築物、招牌與電線。</span></li><li><span data-i="18">不要衝向樓梯或搭電梯。</span></li></ul>
+<h3><span data-i="19">搖晃停止後</span></h3>
+<ul><li><span data-i="20">關閉瓦斯與電源，穿好鞋子。</span></li><li><span data-i="21">走樓梯疏散，沿途留意掉落物。</span></li><li><span data-i="22">注意餘震，並聽官方廣播。</span></li></ul>
+</section>
+<section class="panel" id="p1" role="tabpanel" aria-labelledby="t1" hidden>
+<h3><span data-i="23">平時先知道</span></h3>
+<ul><li><span data-i="24">確認住家、學校、公司是否在沿海或河口低窪區。</span></li><li><span data-i="25">記下最近的高地或高樓層避難處，以及走過去的路線。</span></li></ul>
+<h3><span data-i="26">感覺到危險徵兆時</span></h3>
+<ul><li><span data-i="27">在海邊感到強烈或長時間搖晃，或看到海水異常退去，立刻往高處走，不要等警報。</span></li><li><span data-i="28">遠離海岸、港口與河口，不要為了看海或拍照停留。</span></li><li><span data-i="29">步行優先，避免開車造成塞車。</span></li></ul>
+<h3><span data-i="30">避難期間</span></h3>
+<ul><li><span data-i="31">海嘯可能來好幾波，第一波過去也不要回去。</span></li><li><span data-i="32">等官方正式解除警報後，再返回低處。</span></li></ul>
+</section>
+<section class="panel" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+<h3><span data-i="33">颱風前</span></h3>
+<ul><li><span data-i="34">固定或收起陽台雜物，檢查排水孔。</span></li><li><span data-i="35">手機與行動電源充飽電，備好飲水。</span></li><li><span data-i="36">預先確認所在地是否位於淹水或土石流警戒區。</span></li></ul>
+<h3><span data-i="37">颱風期間</span></h3>
+<ul><li><span data-i="38">留在室內，遠離窗戶。</span></li><li><span data-i="39">不要到海邊、溪邊或山區。</span></li><li><span data-i="40">依政府疏散指示行動，不要抱持僥倖。</span></li></ul>
+</section>
+<section class="panel" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+<h3><span data-i="41">水位上升時</span></h3>
+<ul><li><span data-i="42">往高處移動，切斷低處電源。</span></li><li><span data-i="43">不要涉入流動的積水，水深超過膝蓋就很危險。</span></li><li><span data-i="44">車輛不要駛入地下道或低窪路段。</span></li></ul>
+<h3><span data-i="45">退水之後</span></h3>
+<ul><li><span data-i="46">確認電線與瓦斯安全後再回家。</span></li><li><span data-i="47">被淹過的食物與飲水不要食用。</span></li><li><span data-i="48">清理時戴手套、穿雨鞋。</span></li></ul>
+</section>
+
+<section class="panel" id="p4" role="tabpanel" aria-labelledby="t4" hidden>
+<h3><span data-i="49">平時先準備</span></h3>
+<ul><li><span data-i="50">查詢住家附近的防空避難處所（地下室、地下停車場等），並記下路線。</span></li><li><span data-i="51">備好至少 3 天的飲水、食物、藥品、現金與行動電源。</span></li><li><span data-i="52">約好家人失聯時的集合點與聯絡方式。</span></li></ul>
+<h3><span data-i="53">聽到警報時</span></h3>
+<ul><li><span data-i="54">立刻就近進入堅固建築或防空避難處所，遠離窗戶。</span></li><li><span data-i="55">留意手機國家級警報、廣播與電視的官方指示。</span></li><li><span data-i="56">聽從警察、消防與里長等人員引導，有秩序移動。</span></li></ul>
+<h3><span data-i="57">資訊與心理</span></h3>
+<ul><li><span data-i="58">只相信政府與可靠媒體，不轉傳未經證實的訊息。</span></li><li><span data-i="59">減少手機通話，保留電話線路給緊急需求。</span></li><li><span data-i="60">感到恐慌時，放慢呼吸，和家人保持聯絡。</span></li></ul>
+</section>
+
+<section>
+<h2><span data-i="230">給外國旅客的建議</span></h2>
+<p class="sub"><span data-i="231">旅途中遇到突發狀況時怎麼做。</span></p>
+<details open><summary><span data-i="232">1. 緊急電話</span></summary><div class="d">
+<div class="tw"><table>
+<tr><th><span data-i="233">號碼</span></th><th><span data-i="234">服務</span></th></tr>
+<tr><td>119</td><td><span data-i="235">消防、救護</span></td></tr>
+<tr><td>110</td><td><span data-i="236">警察</span></td></tr>
+<tr><td>118</td><td><span data-i="237">海巡、海上求助</span></td></tr>
+<tr><td>1990</td><td><span data-i="238">外來人士生活諮詢熱線（中、英、日語，24 小時；國外撥打 +886-800-001990）</span></td></tr>
+<tr><td>0800-011-765</td><td><span data-i="239">旅遊服務專線（24 小時；中、英、日、韓語）</span></td></tr>
+</table></div>
+<ul>
+<li><span data-i="240">說出你的位置：地址、地標或飯店名稱。</span></li>
+<li><span data-i="241">請聯絡駐台代表處（見下一項）與你的旅遊保險公司。</span></li>
+</ul></div></details>
+<details class="enonly" open><summary>2. Your country's representative office in Taiwan</summary><div class="d"><h4>United States: American Institute in Taiwan (AIT)</h4>
+<ul>
+<li>Address: No. 100 Jinhu Road, Neihu District, Taipei 11461</li>
+<li>Phone and 24-hour emergency line for U.S. citizens: <a href="tel:+886221622000">+886-2-2162-2000</a></li>
+<li>Email: <a href="mailto:TaipeiACS@state.gov">TaipeiACS@state.gov</a></li>
+<li>Website: <a href="https://www.ait.org.tw/" target="_blank" rel="noopener noreferrer">https://www.ait.org.tw/</a></li>
+</ul>
+<h4>Canada: Trade Office of Canada in Taipei</h4>
+<ul>
+<li>Address: 6F, No. 1 Songzhi Road, Xinyi District, Taipei 11047</li>
+<li>Phone: <a href="tel:+886287233000">+886-2-8723-3000</a> (call for emergency consular help and follow the instructions)</li>
+<li>Email: <a href="mailto:tapei-cs@international.gc.ca">tapei-cs@international.gc.ca</a>; 24/7 Emergency Watch and Response Centre: <a href="mailto:sos@international.gc.ca">sos@international.gc.ca</a></li>
+<li>Website: <a href="https://www.international.gc.ca/country-pays/taiwan/taipei.aspx" target="_blank" rel="noopener noreferrer">https://www.international.gc.ca/country-pays/taiwan/taipei.aspx</a></li>
+</ul>
+<h4>United Kingdom: British Office Taipei</h4>
+<ul>
+<li>Address: 26F, President International Tower, No. 9-11 Songgao Road, Xinyi District, Taipei 110206</li>
+<li>Phone: <a href="tel:+886287582088">+886-2-8758-2088</a></li>
+<li>Emergency and enquiries: online contact form <a href="https://www.contact.service.csd.fcdo.gov.uk/posts/taiwan/british-office-taipei" target="_blank" rel="noopener noreferrer">(FCDO)</a></li>
+<li>Website: <a href="https://www.gov.uk/world/organisations/british-office-taipei" target="_blank" rel="noopener noreferrer">https://www.gov.uk/world/organisations/british-office-taipei</a></li>
+</ul>
+<h4>Australia: Australian Office Taipei</h4>
+<ul>
+<li>Address: President International Tower, 27th-28th Floors, No. 9-11 Songgao Road, Taipei 11073</li>
+<li>Phone: <a href="tel:+886287254100">+886-2-8725-4100</a></li>
+<li>24-hour Consular Emergency Centre (from outside Australia): <a href="tel:+61262613305">+61-2-6261-3305</a>; SMS +61-421-269-080</li>
+<li>Website: <a href="https://australia.org.tw/tpei/home.html" target="_blank" rel="noopener noreferrer">https://australia.org.tw/tpei/home.html</a></li>
+</ul>
+<h4>New Zealand: New Zealand Commerce and Industry Office (NZCIO)</h4>
+<ul>
+<li>Address: 9F, No. 1 Songzhi Road, Xinyi District, Taipei 11047</li>
+<li>Phone: <a href="tel:+886227205228">+886-2-2720-5228</a></li>
+<li>24/7 consular emergency line: <a href="tel:+6499202020">+64-99-20-20-20</a>; email <a href="mailto:cons@mfat.govt.nz">cons@mfat.govt.nz</a></li>
+<li>Website: <a href="https://www.nzcio.com/" target="_blank" rel="noopener noreferrer">https://www.nzcio.com/</a></li>
+</ul>
+<h4>Singapore: Singapore Trade Office in Taipei</h4>
+<ul>
+<li>Phone: <a href="tel:+886227721940">+886-2-2772-1940</a>; after hours, duty officer: <a href="tel:+886953532438">+886-953-532-438</a></li>
+<li>Email: <a href="mailto:singtr_tpe@mfa.sg">singtr_tpe@mfa.sg</a></li>
+<li>Website: <a href="https://taipei.mfa.gov.sg/" target="_blank" rel="noopener noreferrer">https://taipei.mfa.gov.sg/</a></li>
+</ul>
+<h4>Malaysia: Malaysian Friendship and Trade Centre (MFTC), Taipei</h4>
+<ul>
+<li>Address: 8F, San Ho Plastic Building, No. 102 Dunhua North Road, Taipei</li>
+<li>Phone: <a href="tel:+886227132626">+886-2-2713-2626</a></li>
+</ul>
+<p class="note">Contact details can change. Please check each official website before you travel. Offices are listed in no particular order of importance.</p></div></details>
+<details class="zhonly" open><summary>2. 你的國家或地區駐台代表處</summary><div class="d"><h4>新加坡：新加坡駐台北商務辦事處</h4>
+<ul>
+<li>電話：<a href="tel:+886227721940">+886-2-2772-1940</a>；非上班時間緊急協助（值班官員）：<a href="tel:+886953532438">+886-953-532-438</a></li>
+<li>電子郵件：<a href="mailto:singtr_tpe@mfa.sg">singtr_tpe@mfa.sg</a></li>
+<li>官網：<a href="https://taipei.mfa.gov.sg/zh/" target="_blank" rel="noopener noreferrer">https://taipei.mfa.gov.sg/zh/</a></li>
+</ul>
+<h4>馬來西亞：馬來西亞友誼及貿易中心（台北）</h4>
+<ul>
+<li>地址：台北市敦化北路 102 號 8 樓（三和塑膠大樓）</li>
+<li>電話：<a href="tel:+886227132626">+886-2-2713-2626</a></li>
+</ul>
+<h4>香港、澳門：緊急求助（駐台辦事處已暫停運作）</h4>
+<ul>
+<li>香港入境處 24 小時熱線：<a href="tel:+8521868">+852 1868</a>；電子郵件：<a href="mailto:enquiry@immd.gov.hk">enquiry@immd.gov.hk</a></li>
+<li>澳門旅遊局 24 小時熱線：<a href="tel:+85328333000">+853 2833-3000</a></li>
+<li>台灣主管機關（陸委會港澳處／交流辦）：<a href="tel:+886223975589">+886-2-2397-5589</a>／<a href="tel:+886227002790">+886-2-2700-2790</a></li>
+</ul>
+<p class="note">聯絡方式可能變更，請出發前到各單位官網確認。</p></div></details>
+<details class="jaonly" open><summary>2. 日本の代表処（日本台湾交流協会）</summary><div class="d"><ul>
+<li>名称：公益財団法人 日本台湾交流協会 台北事務所</li>
+<li>住所：台北市松山区慶城街28号 通泰商業大樓</li>
+<li>電話：<a href="tel:+886227138000">+886-2-2713-8000</a>（台湾国内は 02-2713-8000）</li>
+<li>E-mail：<a href="mailto:ryoji-k1@tp.koryu.or.jp">ryoji-k1@tp.koryu.or.jp</a></li>
+<li>ウェブサイト：<a href="https://www.koryu.or.jp/" target="_blank" rel="noopener noreferrer">https://www.koryu.or.jp/</a></li>
+<li>高雄事務所：<a href="tel:+88677714008">+886-7-771-4008</a>（高雄市苓雅区和平一路87号 南和和平大樓9階）</li>
+</ul>
+<p class="note">連絡先は変更されることがあります。出発前に公式サイトで最新情報をご確認ください。</p></div></details>
+<details class="koonly" open><summary>2. 한국 대표부 (주타이베이 대한민국 대표부)</summary><div class="d"><ul>
+<li>주소: 台北市 基隆路 一段 333號 1506室 (우편번호 11012)</li>
+<li>대표전화 (근무시간 08:30~17:30, 월~금): <a href="tel:+886227588320">+886-2-2758-8320~5</a></li>
+<li>근무시간 외 긴급전화: <a href="tel:+886912069230">+886-912-069-230</a> (평일 18시~익일 09시, 공휴일 24시간, 긴급 상황 전용)</li>
+<li>영사안전콜센터 (24시간, 유료): <a href="tel:+82232100404">+82-2-3210-0404</a></li>
+<li>이메일: <a href="mailto:taipei@mofa.go.kr">taipei@mofa.go.kr</a></li>
+<li>홈페이지: <a href="https://overseas.mofa.go.kr/tw-ko/index.do" target="_blank" rel="noopener noreferrer">https://overseas.mofa.go.kr/tw-ko/index.do</a></li>
+</ul>
+<p class="note">연락처는 변경될 수 있으니 출발 전에 공식 사이트에서 확인하세요.</p></div></details>
+<details><summary><span data-i="242">3. 發生災害時</span></summary><div class="d"><ul>
+<li><span data-i="243">地震：趴下、掩護、穩住。</span></li>
+<li><span data-i="244">在海邊感到強烈搖晃：不要等警報，立刻往高處避難。</span></li>
+<li><span data-i="245">颱風：留在室內。航班與大眾運輸可能停駛，請向飯店詢問最新消息。</span></li>
+<li><span data-i="246">防空警報：就近進入鋼筋混凝土建築或地下停車場，遠離窗戶。</span></li>
+</ul></div></details>
+<details><summary><span data-i="247">4. 外出前</span></summary><div class="d"><ul>
+<li><span data-i="248">入住時詢問緊急出口與最近的避難處所。</span></li>
+<li><span data-i="249">攜帶護照影本、藥品清單與充飽電的行動電源。</span></li>
+<li><span data-i="250">購買涵蓋醫療與緊急撤離的旅遊保險。</span></li>
+</ul></div></details>
+<details><summary><span data-i="251">5. 求助用語</span></summary><div class="d">
+<p style="margin:0 0 6px"><span data-i="252">手機警報可能只有中文。請把這些句子拿給附近的人看。</span></p>
+<div class="tw"><table>
+<tr><th><span data-i="253">中文</span></th><th><span data-i="254">英文</span></th></tr>
+<tr><td class="zhp">請幫幫我</td><td><span data-i="255">Please help me</span></td></tr>
+<tr><td class="zhp">我需要醫生</td><td><span data-i="256">I need a doctor</span></td></tr>
+<tr><td class="zhp">請叫救護車</td><td><span data-i="257">Please call an ambulance</span></td></tr>
+<tr><td class="zhp">避難所在哪裡？</td><td><span data-i="258">Where is the shelter?</span></td></tr>
+<tr><td class="zhp">我是外國人，請說慢一點</td><td><span data-i="259">I am a foreigner. Please speak slowly.</span></td></tr>
+</table></div></div></details>
+</section>
+
+<h2><span data-i="61">緊急避難包檢查表</span></h2>
+<p class="sub"><span data-i="62">勾選已備妥的項目，進度會保存在這台裝置上。各項目的選購建議見下方裝備指南。</span></p>
+<div class="bar" aria-hidden="true"><i id="bar"></i></div>
+<p id="count" class="sub" aria-live="polite"></p>
+<ul class="kit" id="kit"></ul>
+
+<h2><span data-i="63">避難包裝備指南</span></h2>
+<p class="sub"><span data-i="64">依類別展開，了解該買什麼、怎麼選。建議準備兩份：隨身逃生用的避難包，以及放在家中的儲備物資。</span></p>
+
+<details open><summary><span data-i="65">電池與電力</span></summary><div class="d">
+<div class="tw"><table>
+<tr><th><span data-i="66">電池</span></th><th><span data-i="67">規格</span></th><th><span data-i="68">用途</span></th><th><span data-i="69">重點</span></th></tr>
+<tr><td><span data-i="70">鹼性／碳鋅電池</span></td><td><span data-i="71">AA（3 號）、AAA（4 號）</span></td><td><span data-i="72">遙控器、時鐘、一般手電筒、收音機</span></td><td><span data-i="73">便宜好買，鹼性電池可存放約 5 到 10 年。碳鋅電池電量少、較易漏液，避難包不建議放。</span></td></tr>
+<tr><td><span data-i="74">鋰電池（不可充電）</span></td><td><span data-i="75">AA（3 號）、AAA（4 號）</span></td><td><span data-i="76">避難包內的手電筒、頭燈、收音機</span></td><td><span data-i="77">可存放約 20 年，耐低溫，避難包首選。價格較高，不可充電。</span></td></tr>
+<tr><td><span data-i="78">鋰電池（可充電）</span></td><td>18650</td><td><span data-i="79">強光手電筒、頭燈</span></td><td><span data-i="80">電壓約 3.7V，容量大。需專用充電器，不能裝進 AA 設備。</span></td></tr>
+<tr><td><span data-i="81">鎳氫充電電池</span></td><td><span data-i="82">AA（3 號）、AAA（4 號）</span></td><td><span data-i="83">平常家中常用的設備</span></td><td><span data-i="84">可重複使用，需要有電源才能充電。</span></td></tr>
+<tr><td><span data-i="85">鈕扣電池</span></td><td><span data-i="86">CR2032 等</span></td><td><span data-i="87">電子體溫計、小型燈具、車鑰匙遙控</span></td><td><span data-i="88">幼兒誤吞很危險，請收好。</span></td></tr>
+</table></div>
+<ul>
+<li><span data-i="89">先確認家裡設備用哪種電池，盡量統一規格，每種多備兩組。</span></li>
+<li><span data-i="90">新舊、不同品牌的電池不要混用。</span></li>
+<li><span data-i="91">18650 請選有保護板的正規品牌，用專用充電器，不要放在口袋與鑰匙、硬幣一起。</span></li>
+<li><span data-i="92">18650 長期不用時，保持約一半電量，涼爽乾燥處存放，電池鼓脹、漏液就不要再用。</span></li>
+<li><span data-i="93">行動電源建議 10000 到 20000 mAh，每三到六個月充飽一次，並備好充電線。</span></li>
+<li><span data-i="94">照明優先選頭燈，雙手可以空出來。避免用蠟燭，餘震時有火災風險。</span></li>
+<li><span data-i="95">手搖或太陽能收音機，可同時當作小型充電與照明。</span></li>
+</ul></div></details>
+
+<details><summary><span data-i="96">口罩與呼吸防護</span></summary><div class="d">
+<div class="tw"><table>
+<tr><th><span data-i="97">類型</span></th><th><span data-i="98">主要用途</span></th><th><span data-i="99">注意事項</span></th></tr>
+<tr><td><span data-i="100">醫用口罩（平面）</span></td><td><span data-i="101">阻擋飛沫與較大的粉塵，避難所內防範傳染病</span></td><td><span data-i="102">對細小煙塵過濾有限，兩側容易漏風</span></td></tr>
+<tr><td><span data-i="103">N95、KN95、KF94 等高過濾口罩</span></td><td><span data-i="104">阻擋火災煙塵、灰燼、建物倒塌的粉塵與細懸浮微粒</span></td><td><span data-i="105">需貼合臉部才有效，戴上後不應感覺明顯漏氣，並請選有標示認證的產品</span></td></tr>
+<tr><td><span data-i="106">活性碳口罩</span></td><td><span data-i="107">減少異味</span></td><td><span data-i="108">不等同於防毒，過濾細懸浮微粒的效果依產品而異</span></td></tr>
+<tr><td><span data-i="109">防塵護目鏡（搭配）</span></td><td><span data-i="110">保護眼睛不受粉塵與碎屑傷害</span></td><td><span data-i="111">戴眼鏡者可選能罩住眼鏡的款式</span></td></tr>
+</table></div>
+<ul>
+<li><span data-i="112">建議每人至少備 5 到 10 個醫用口罩，加上數個高過濾口罩。</span></li>
+<li><span data-i="113">幼兒需選擇兒童尺寸，臉型太小時大人口罩無法貼合，請諮詢醫師或藥師。</span></li>
+<li><span data-i="114">有呼吸道疾病的人，使用高過濾口罩前先諮詢醫師。</span></li>
+</ul>
+<p class="note"><span data-i="115">口罩無法防範一氧化碳或有毒氣體。遇到化學外洩或瓦斯事件，請依官方指示撤離。</span></p></div></details>
+
+<details><summary><span data-i="116">飲水與食物</span></summary><div class="d">
+<h4><span data-i="117">飲水</span></h4>
+<ul><li><span data-i="118">每人每天約 3 公升（含飲用與簡單清潔），至少備 3 天。</span></li><li><span data-i="119">瓶裝水留意有效日期，並定期更換。</span></li><li><span data-i="120">另備淨水錠或攜帶式濾水器，作為水源中斷時的補充。</span></li></ul>
+<h4><span data-i="121">食物</span></h4>
+<ul>
+<li><span data-i="122">選擇不需烹煮、保存期長、高熱量的食物：罐頭、能量棒、餅乾、堅果、乾果、即食米飯、肉乾。</span></li>
+<li><span data-i="123">另備開罐器、免洗餐具與少量的鹽糖補充包。</span></li>
+<li><span data-i="124">考量家人的飲食限制，例如過敏、素食、軟質食物（長者與幼兒）。</span></li>
+<li><span data-i="125">泡麵與需加熱的食品要搭配卡式爐與瓦斯罐，並確認在通風處使用。</span></li>
+</ul></div></details>
+
+<details><summary><span data-i="126">急救與藥品</span></summary><div class="d">
+<ul>
+<li><span data-i="127">急救包基本內容：OK 繃、紗布、彈性繃帶、三角巾、醫療膠帶、無菌生理食鹽水、優碘或酒精棉片、拋棄式手套、剪刀、鑷子、保溫毯。</span></li>
+<li><span data-i="128">家人慢性病用藥至少備 7 天份，並附上藥單或藥名與劑量記錄。</span></li>
+<li><span data-i="129">常用成藥（退燒止痛、腸胃藥、過敏藥）依個人狀況準備，使用前請先詢問醫師或藥師。</span></li>
+<li><span data-i="130">備用眼鏡或隱形眼鏡與保養液、助聽器電池等個人必需品。</span></li>
+<li><span data-i="131">止血帶等進階用品，需要受過訓練才能正確使用，建議先參加急救課程。</span></li>
+</ul></div></details>
+
+<details><summary><span data-i="132">衛生與保暖</span></summary><div class="d">
+<ul>
+<li><span data-i="133">衛生：濕紙巾、衛生紙、肥皂或乾洗手、牙刷牙膏、毛巾、垃圾袋。</span></li>
+<li><span data-i="134">簡易廁所：攜帶式馬桶袋與凝固劑，水電中斷時非常實用。</span></li>
+<li><span data-i="135">女性生理用品，以及有幼兒家庭的尿布、奶粉與奶瓶。</span></li>
+<li><span data-i="136">衣物：輕便雨衣、保暖外套、備用內衣褲與襪子、帽子。</span></li>
+<li><span data-i="137">防護：厚底鞋或雨鞋、工作手套、地震時可保護頭部的安全帽。</span></li>
+<li><span data-i="138">保暖毯或鋁箔毯，體積小，可以大幅降低失溫的風險。</span></li>
+</ul></div></details>
+
+<details><summary><span data-i="139">工具與求救</span></summary><div class="d">
+<ul>
+<li><span data-i="140">哨子：被困時比呼喊更省力、聲音傳得更遠。</span></li>
+<li><span data-i="141">多功能工具鉗或小刀、膠帶、繩索、防水夾鏈袋。</span></li>
+<li><span data-i="142">防水袋或防水手機袋，保護證件與電子設備。</span></li>
+<li><span data-i="143">滅火毯或小型滅火器，使用前先熟悉操作方式。</span></li>
+<li><span data-i="144">紙本地圖與避難路線，手機沒電時也能使用。</span></li>
+</ul></div></details>
+
+<details><summary><span data-i="145">證件、現金與資料</span></summary><div class="d">
+<ul>
+<li><span data-i="146">身分證、健保卡、駕照影本，以及存摺、保單資料。</span></li>
+<li><span data-i="147">現金（小鈔與零錢），災時 ATM 與行動支付可能無法使用。</span></li>
+<li><span data-i="148">家人緊急聯絡人紙本清單，包括縣外聯絡人。</span></li>
+<li><span data-i="149">家人近照，萬一走散時方便協尋。</span></li>
+<li><span data-i="150">重要文件拍照後，存放在雲端與隨身碟，兩處都要備份。</span></li>
+</ul></div></details>
+
+<details><summary><span data-i="151">依家庭成員加強</span></summary><div class="d">
+<ul>
+<li><span data-i="152">嬰幼兒：奶粉、奶瓶、尿布、副食品、安撫玩具、兒童口罩。</span></li>
+<li><span data-i="153">長者：藥品、假牙清潔用品、助行器材、保暖衣物、軟質食物。</span></li>
+<li><span data-i="154">慢性病或身心障礙者：藥品、醫療器材電池、病歷摘要，以及所需輔具。</span></li>
+<li><span data-i="155">寵物：飼料與飲水、外出籠、牽繩、預防注射紀錄。</span></li>
+</ul></div></details>
+
+<details><summary><span data-i="156">打包與保養</span></summary><div class="d">
+<ul>
+<li><span data-i="157">避難包以成人能輕鬆背著走為原則，重物放在背部貼近身體處。</span></li>
+<li><span data-i="158">放在玄關、床邊或其他容易取得的位置，不要埋在儲藏室深處。</span></li>
+<li><span data-i="159">每半年檢查一次，更換即將到期的食物、飲水、藥品與電池。</span></li>
+<li><span data-i="160">每個家人自己的包放上姓名、血型、過敏與緊急聯絡人。</span></li>
+</ul></div></details>
+
+<details><summary><span data-i="161">日常備災（日常備蓄）</span></summary><div class="d">
+<p style="margin:0 0 6px"><span data-i="162">把平常吃的、用的多買一些，用掉一份就補一份，不用另外囤放到過期。災害發生時，家中本來就有存貨可以用。</span></p>
+<h4><span data-i="163">做法</span></h4>
+<ul>
+<li><span data-i="164">先從 3 天份開始，有餘力再增加。</span></li>
+<li><span data-i="165">吃舊的、補新的：新買的放後面，舊的放前面先用。</span></li>
+<li><span data-i="166">在包裝上寫下購買日期或有效日期，放在固定位置。</span></li>
+<li><span data-i="167">買菜或補貨時，順便看一眼庫存，缺什麼就補什麼。</span></li>
+</ul>
+<h4><span data-i="168">適合日常備蓄的東西</span></h4>
+<ul>
+<li><span data-i="169">飲用水、米、麵、罐頭、泡麵、即食食品、乾糧。</span></li>
+<li><span data-i="170">衛生紙、濕紙巾、垃圾袋、生理用品、尿布。</span></li>
+<li><span data-i="171">家人常用藥品、寵物飼料、電池。</span></li>
+<li><span data-i="172">卡式爐與瓦斯罐，並放在通風處使用。</span></li>
+</ul>
+<h4><span data-i="173">和避難包的差別</span></h4>
+<ul>
+<li><span data-i="174">避難包：要離開家時帶著走，輕便、放在容易拿到的地方。</span></li>
+<li><span data-i="175">日常備蓄：留在家裡避難或等待支援時使用，量可以比較多。</span></li>
+</ul></div></details>
+
+<h2><span data-i="176">防災手冊專區</span></h2>
+<p class="sub"><span data-i="177">手冊分為綜合防災手冊與國防手冊兩類，點擊後會在新分頁開啟或下載。建議事先下載到手機，沒有網路時也能閱讀。</span></p>
+<h3 class="g"><span data-i="178">綜合防災手冊</span></h3>
+<ul class="pdfs">
+<li><a href="https://prepare.mnd.gov.tw/assets/pdf/manual.zh-Hant.pdf" target="_blank" rel="noopener noreferrer"><span class="tag">PDF</span><b><span data-i="179">台灣全民安全指引</span></b><small><span data-i="180">國防部全民防衛動員署編製的全民安全指引（繁體中文版）。</span></small></a></li>
+<li><a href="https://www-ws.gov.taipei/Download.ashx?u=LzAwMS9VcGxvYWQvNjkxL3JlbGZpbGUvNDYwMDMvNzk0ODIxNy9iY2FkZmUxMy1mZTkyLTQ1NTYtOWZiNS03ZmJiNmRiMDBiZjUucGRm&amp;n=44CM6Ie65YyX6Ziy54G944CA56uL5Y2zZ2%2fjgI3pmLLngb3miYvlhopf5Lit5paHLnBkZg%3d%3d&amp;icon=..pdf" target="_blank" rel="noopener noreferrer"><span class="tag">PDF</span><b><span data-i="181">臺北防災 立即 go 防災手冊（中文）</span></b><small><span data-i="182">臺北市政府編製的防災手冊。</span></small></a></li>
+<li><a href="https://www.bousai.metro.tokyo.lg.jp/_res/projects/default_project/_page_/001/029/141/kb2023_han_00.pdf" target="_blank" rel="noopener noreferrer"><span class="tag">PDF</span><b><span data-i="183">東京生活防災</span></b><small><span data-i="184">東京都編製的防災手冊。</span></small></a></li>
+<li><a href="https://www.bousai.metro.tokyo.lg.jp/_res/projects/default_project/_page_/001/029/137/tb2023_han_00.pdf" target="_blank" rel="noopener noreferrer"><span class="tag">PDF</span><b><span data-i="185">東京防災</span></b><small><span data-i="186">東京都編製的防災手冊，涵蓋各種災害的準備與應變。</span></small></a></li>
+<li><a href="https://www.scdf.gov.sg/docs/default-source/comm.---volunteers-(docs)/cd-emergency-handbook-2026-(mandarin).pdf?sfvrsn=d25aa6bf_1" target="_blank" rel="noopener noreferrer"><span class="tag">PDF</span><b><span data-i="187">新加坡民防緊急應對手冊（華語版，2026）</span></b><small><span data-i="188">新加坡民防部隊（SCDF）編製的緊急應對手冊。</span></small></a></li>
+<li><a href="https://orgws.kcg.gov.tw/001/KcgOrgUploadFiles/314/relfile/74013/297289/5c3e68a3-7d1f-4efa-bfce-7fada92d7db6.pdf" target="_blank" rel="noopener noreferrer"><span class="tag">PDF</span><b><span data-i="189">災害防救簡易手冊（高雄市前鎮區公所）</span></b><small><span data-i="190">涵蓋地震、颱風、火災、登革熱、海嘯，簡短好讀；通報電話為高雄在地資訊。</span></small></a></li>
+</ul>
+<h3 class="g"><span data-i="191">國防手冊</span></h3>
+<ul class="pdfs">
+<li><a href="https://adma.mnd.gov.tw/files/web/191/file_up/100004/1389/%E5%85%A8%E6%B0%91%E5%9C%8B%E9%98%B2%E6%87%89%E8%AE%8A%E6%89%8B%E5%86%8A.pdf" target="_blank" rel="noopener noreferrer"><span class="tag">PDF</span><b><span data-i="192">全民國防應變手冊</span></b><small><span data-i="193">國防部全民防衛動員署編製。</span></small></a></li>
+<li><a href="https://adma.mnd.gov.tw/aodhlist/100004/6" target="_blank" rel="noopener noreferrer"><span class="tag"><span data-i="194">下載頁</span></span><b><span data-i="195">各縣市國防手冊下載</span></b><small><span data-i="196">國防部全民防衛動員署整理的各縣市版本，請選擇住家所在縣市。</span></small></a></li>
+</ul>
+<p class="sub"><span data-i="197">地方版手冊（高雄、臺北）的避難所與電話只適用該縣市。若連結無法開啟，請至各單位官網搜尋手冊名稱。</span></p>
+
+<h2><span data-i="198">防災相關網站</span></h2>
+<p class="sub"><span data-i="199">查詢住家的災害風險與即時水情，點擊會在新分頁開啟。</span></p>
+<ul class="pdfs">
+<li><a href="https://adr.npa.gov.tw/adr-web/ShelterInfo.html" target="_blank" rel="noopener noreferrer"><span class="tag"><span data-i="226">網站</span></span><b><span data-i="227">內政部警政署防空避難專區</span></b><small><span data-i="228">查詢住家附近的防空避難處所資訊。</span></small></a></li>
+<li><a href="https://dmap.ncdr.nat.gov.tw/1109/map/" target="_blank" rel="noopener noreferrer"><span class="tag"><span data-i="200">網站</span></span><b><span data-i="201">國家災害防救科技中心：3D 災害潛勢地圖</span></b><small><span data-i="202">以 3D 地圖查詢各地的災害潛勢。</span></small></a></li>
+<li><a href="https://dra.ncdr.nat.gov.tw/Frontend/Tools/ShowMapBoxWMS" target="_blank" rel="noopener noreferrer"><span class="tag"><span data-i="203">網站</span></span><b><span data-i="204">國家災害防救科技中心：氣候變遷災害風險圖臺</span></b><small><span data-i="205">查詢氣候變遷下的災害風險圖資。</span></small></a></li>
+<li><a href="https://fhy.wra.gov.tw/fhyv2/monitor/reservoir" target="_blank" rel="noopener noreferrer"><span class="tag"><span data-i="206">網站</span></span><b><span data-i="207">經濟部水利署：水庫水情</span></b><small><span data-i="208">查詢各水庫的即時水情。</span></small></a></li>
+<li><a href="https://www.tfdp.com.tw/cht/index.php?code=list&amp;ids=37&amp;page=1" target="_blank" rel="noopener noreferrer"><span class="tag"><span data-i="209">網站</span></span><b><span data-i="210">內政部消防防災館下載專區</span></b><small><span data-i="211">內政部消防署消防防災館提供的防災宣導素材與海報下載。</span></small></a></li>
+</ul>
+
+<h2><span data-i="260">緊急廣播頻率</span></h2>
+<p class="sub"><span data-i="261">停電、網路中斷時，收音機是取得官方消息的重要方式。</span></p>
+<div class="tw"><table>
+<tr><th><span data-i="262">媒體</span></th><th><span data-i="263">電台</span></th><th><span data-i="264">頻率</span></th><th><span data-i="265">適用情境與備註</span></th></tr>
+<tr><td><span data-i="266">FM 廣播</span></td><td><span data-i="267">警察廣播電臺（全國網）</span></td><td>FM 104.9</td><td><span data-i="268">台北／雙北／桃園／全國主要都會區</span></td></tr>
+<tr><td><span data-i="269">FM 廣播</span></td><td><span data-i="270">警廣臺中分臺</span></td><td>FM 94.5</td><td><span data-i="271">中部地區（即時路況與災情通報）</span></td></tr>
+<tr><td><span data-i="272">FM 廣播</span></td><td><span data-i="273">警廣高雄分臺</span></td><td>FM 93.1</td><td><span data-i="274">南部地區（即時路況與災情通報）</span></td></tr>
+<tr><td><span data-i="275">AM 廣播</span></td><td><span data-i="276">中廣新聞網（台北／桃園）</span></td><td>AM 648 / AM 963</td><td><span data-i="277">北部地區大範圍停電備用新聞管道</span></td></tr>
+<tr><td><span data-i="287">AM 廣播</span></td><td><span data-i="288">中廣新聞網（台中／高雄）</span></td><td>AM 927（中）／AM 864（高）</td><td><span data-i="289">中／南部地區備用新聞管道</span></td></tr>
+</table></div>
+<h3 class="g"><span data-i="278">使用方式</span></h3>
+<ul>
+<li><span data-i="279">備一台手搖或電池式收音機，並準備多組電池。</span></li>
+<li><span data-i="280">先在平時試聽，記下你所在地區的頻率。</span></li>
+<li><span data-i="281">災害發生時，打開收音機並依官方指示行動。</span></li>
+</ul>
+<h3 class="g"><span data-i="282">注意事項</span></h3>
+<ul>
+<li><span data-i="283">頻率依地區而異，請以各電台官網為準。</span></li>
+<li><span data-i="284">山區與室內訊號可能較弱，可移到窗邊或室外。</span></li>
+<li><span data-i="285">節省電池，沒有收聽時請關機。</span></li>
+<li><span data-i="286">只相信官方與可靠媒體的資訊，不轉傳未證實的消息。</span></li>
+<li><span data-i="290">頻率可能被境外電台蓋台並播送假消息。聽到來源不明的內容請提高警覺，以官方公告為準。</span></li>
+</ul>
+
+<h2><span data-i="212">家庭防災計畫</span></h2>
+<p class="sub"><span data-i="213">填好後截圖，傳給家人。</span></p>
+<div class="plan">
+<label for="f1"><span data-i="214">家附近的避難地點</span></label><input id="f1" data-k="a">
+<label for="f2"><span data-i="215">家人走散時的集合點</span></label><input id="f2" data-k="b">
+<label for="f3"><span data-i="216">縣外聯絡人姓名與電話</span></label><input id="f3" data-k="c">
+<label for="f4"><span data-i="217">需要特別照顧的家人（長者、寶寶、寵物）</span></label><input id="f4" data-k="d">
+<label for="f5"><span data-i="218">其他留言</span></label><textarea id="f5" data-k="e" rows="4"></textarea>
+</div>
+
+<footer>
+<h3 class="g" style="margin-top:0"><span data-i="219">免責聲明</span></h3>
+<ol style="padding-left:1.3em;margin:0">
+<li><span data-i="220">本頁為一般性防災資訊整理，不構成專業建議，也不保證內容完整、即時，或適用於每個人的狀況。</span></li>
+<li><span data-i="221">實際避難與應變，請以政府、消防、氣象與國防單位的最新公告與指示為準。遇到緊急狀況，請立即撥打 119、110 或 118。</span></li>
+<li><span data-i="222">急救、藥品、口罩與電池等內容為一般性建議，使用前請諮詢醫師、藥師，或參考產品說明書。</span></li>
+<li><span data-i="223">手冊與網站的內容及著作權屬各原單位所有，本頁僅提供連結，不代表該單位的立場，也與其無任何關係。連結可能變更或失效，內容以原網站為準。</span></li>
+<li><span data-i="224">家庭防災計畫與檢查表的內容只存放在你自己的裝置，本頁不會上傳或蒐集。</span></li>
+<li><span data-i="225">因使用或無法使用本頁資訊所造成的任何損失，製作者不負賠償責任（法律另有規定者除外）。</span></li>
+</ol>
+<p class="sub" style="margin-top:16px"><span data-i="229">製作：Samuel Huang｜最後更新：2026 年 10 月</span></p>
+</footer>
+</main>
+<div id="dlg" role="alertdialog" aria-modal="true" aria-labelledby="dlgT" hidden><div class="box"><h3 id="dlgT"></h3><p id="dlgP"></p><div id="dlgNum"></div><div id="dlgSvc"></div><p id="dlgW"></p><div class="btns"><button type="button" id="dlgN"></button><button type="button" id="dlgY"></button></div></div></div>
+<script>
+const items=["飲用水（每人每天 3 公升，備 3 天）","乾糧與罐頭","手電筒與備用電池","行動電源與充電線","急救包與常備藥品","哨子（被困時求救用）","口罩與個人衛生用品","現金與證件影本","保暖衣物與輕便雨衣","收音機（手搖或電池式）"];
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let done=[];try{done=JSON.parse(store.get("kit")||"[]")}catch(e){}
+const kit=document.getElementById("kit");
+items.forEach((t,i)=>{const li=document.createElement("li");li.innerHTML='<label><input type="checkbox"><span></span></label>';
+const cb=li.querySelector("input");li.querySelector("span").textContent=t;cb.checked=done.includes(i);
+cb.onchange=()=>{done=cb.checked?[...new Set([...done,i])]:done.filter(x=>x!==i);store.set("kit",JSON.stringify(done));upd()};kit.appendChild(li)});
+let lang="zh";
+function upd(){document.getElementById("bar").style.width=done.length/items.length*100+"%";document.getElementById("count").textContent=({zh:"已備妥 "+done.length+" / "+items.length+" 項",en:"Packed "+done.length+" / "+items.length,ja:"準備済み "+done.length+" / "+items.length,ko:"준비됨 "+done.length+" / "+items.length})[lang]}
+upd();
+document.querySelectorAll(".tabs button").forEach((b,i,all)=>b.onclick=()=>{all.forEach((x,j)=>{x.setAttribute("aria-selected",i===j);document.getElementById("p"+j).hidden=i!==j})});
+document.querySelectorAll(".plan input,.plan textarea").forEach(inp=>{inp.value=store.get("plan"+inp.dataset.k)||"";inp.oninput=()=>store.set("plan"+inp.dataset.k,inp.value)});
+const EN={"t": ["Prepare before disaster strikes,", "so you stay calm when it does", "Three things: know how to take cover, stock supplies, and agree on a meeting point with your family. Ten minutes is enough to start.", "Fire・Ambulance", "Police・Report・Emergency", "Coast Guard・Report・Sea rescue", "Disaster message board", "What to do in a disaster", "Choose a disaster type to see what to do and what to avoid.", "Earthquake", "Tsunami", "Typhoon", "Flood", "War", "During shaking", "Drop, Cover, Hold On: get low under a sturdy table and protect your head and neck.", "Stay away from windows, cabinets and hanging lights.", "If outdoors, move away from buildings, signs and power lines.", "Do not rush to the stairs or take the elevator.", "After shaking stops", "Turn off gas and power, and put on shoes.", "Evacuate by stairs and watch for falling objects.", "Expect aftershocks and follow official broadcasts.", "Know in advance", "Check whether your home, school or workplace is in a coastal or river-mouth lowland.", "Note the nearest high ground or high floor, and the route to get there.", "When you notice warning signs", "If you feel strong or long shaking near the sea, or see the water retreat unusually, go to high ground at once. Do not wait for a warning.", "Stay away from coasts, ports and river mouths. Do not linger to watch or take photos.", "Go on foot where possible to avoid traffic jams.", "While sheltering", "Tsunamis can come in several waves. Do not go back after the first one.", "Return to low ground only after officials lift the warning.", "Before the typhoon", "Secure or bring in balcony items and check drains.", "Fully charge phones and power banks, and stock drinking water.", "Check ahead whether your area is a flood or landslide warning zone.", "During the typhoon", "Stay indoors and away from windows.", "Stay away from the sea, streams and mountains.", "Follow government evacuation orders. Do not take chances.", "When water rises", "Move to higher ground and cut power in low areas.", "Do not wade through moving water. Knee-deep water is already dangerous.", "Do not drive into underpasses or low-lying roads.", "After the water recedes", "Return home only after confirming electricity and gas are safe.", "Do not eat or drink anything touched by floodwater.", "Wear gloves and rain boots when cleaning up.", "Prepare ahead", "Find air-raid shelters near your home (basements, underground parking) and note the route.", "Stock at least 3 days of water, food, medicine, cash and a power bank.", "Agree with family on a meeting point and how to contact each other if separated.", "When the alert sounds", "Go to the nearest sturdy building or shelter at once and stay away from windows.", "Follow official instructions on your phone alert, radio and TV.", "Follow police, firefighters and neighborhood officials, and move in an orderly way.", "Information and mindset", "Trust only government and reliable media. Do not forward unverified information.", "Limit phone calls to keep lines free for emergencies.", "If you feel panicked, slow your breathing and stay in touch with family.", "Emergency kit checklist", "Tick what you have packed. Progress is saved on this device. See the gear guide below for buying tips.", "Emergency kit gear guide", "Open each category to see what to buy and how to choose. Prepare two sets: a grab-and-go kit for escaping, and supplies stored at home.", "Batteries and power", "Battery", "Size", "Use", "Notes", "Alkaline / zinc-carbon", "AA, AAA", "Remotes, clocks, ordinary flashlights, radios", "Cheap and easy to find. Alkaline lasts about 5 to 10 years in storage. Zinc-carbon has less capacity and leaks more easily, so it is not recommended for the kit.", "Lithium (non-rechargeable)", "AA, AAA", "Flashlights, headlamps and radios in the kit", "Lasts about 20 years in storage and handles cold well. The best choice for the kit. Costs more and cannot be recharged.", "Lithium (rechargeable)", "Bright flashlights, headlamps", "About 3.7V with high capacity. Needs a dedicated charger and does not fit AA devices.", "NiMH rechargeable", "AA, AAA", "Everyday devices at home", "Reusable, but needs a power source to recharge.", "Coin cell", "CR2032, etc.", "Digital thermometers, small lights, car key fobs", "Dangerous if swallowed by young children. Keep out of reach.", "Standardize battery sizes across your devices and keep two spare sets of each.", "Do not mix old and new batteries or different brands.", "Choose 18650 cells with a protection circuit from reputable brands, use a dedicated charger, and never carry them loose with keys or coins.", "When storing 18650 cells long term, keep them about half charged in a cool dry place. Stop using any that swell or leak.", "Power banks of 10,000 to 20,000 mAh are recommended. Fully charge every three to six months and keep charging cables ready.", "Prefer a headlamp so your hands stay free. Avoid candles because of fire risk during aftershocks.", "A hand-crank or solar radio can also serve as a small charger and light.", "Masks and respiratory protection", "Type", "Main use", "Notes", "Medical mask (flat)", "Blocks droplets and larger dust; helps prevent infection in shelters", "Limited filtration of fine smoke, and gaps at the sides", "N95, KN95, KF94 and similar high-filtration masks", "Blocks fire smoke, ash, collapse dust and fine particles", "Only works with a snug fit: you should not feel obvious air leaks. Choose certified products.", "Activated carbon mask", "Reduces odors", "Not a gas mask. Filtration of fine particles varies by product.", "Dust goggles (as a pair)", "Protect eyes from dust and debris", "If you wear glasses, choose a style that fits over them.", "Keep at least 5 to 10 medical masks per person, plus several high-filtration masks.", "Young children need child sizes. Adult masks do not seal on small faces, so ask a doctor or pharmacist.", "If you have a respiratory condition, ask a doctor before using high-filtration masks.", "Masks do not protect against carbon monoxide or toxic gas. In a chemical leak or gas incident, evacuate as officials instruct.", "Water and food", "Water", "Store about 3 liters per person per day (drinking and basic cleaning) for at least 3 days.", "Check expiry dates on bottled water and rotate it regularly.", "Also keep water purification tablets or a portable filter in case the water supply is cut off.", "Food", "Choose food that needs no cooking, keeps long and is high in calories: canned food, energy bars, crackers, nuts, dried fruit, instant rice, jerky.", "Add a can opener, disposable tableware and a few salt and sugar packets.", "Consider dietary needs such as allergies, vegetarian diets and soft food for older adults and young children.", "Instant noodles and food that needs heating require a portable stove and gas canisters. Use them in a ventilated place.", "First aid and medicine", "Basic first aid kit: adhesive bandages, gauze, elastic bandage, triangular bandage, medical tape, sterile saline, iodine or alcohol wipes, disposable gloves, scissors, tweezers, emergency blanket.", "Keep at least 7 days of chronic-illness medicine, with a medication list showing names and doses.", "Prepare common over-the-counter drugs (fever and pain relief, stomach medicine, allergy medicine) to suit your needs, and ask a doctor or pharmacist before use.", "Spare glasses or contact lenses with solution, hearing aid batteries and other personal essentials.", "Advanced items such as tourniquets require training to use correctly. Take a first aid course first.", "Hygiene and warmth", "Hygiene: wet wipes, toilet paper, soap or hand sanitizer, toothbrush and toothpaste, towel, trash bags.", "Emergency toilet: portable toilet bags with a waste gelling agent are very useful when water and power are out.", "Feminine hygiene products, and diapers, formula and bottles for families with babies.", "Clothing: light rain jacket, warm coat, spare underwear and socks, hat.", "Protection: sturdy shoes or rain boots, work gloves, and a helmet to protect your head in an earthquake.", "A warm blanket or foil blanket is compact and greatly lowers the risk of hypothermia.", "Tools and signaling", "Whistle: takes less effort than shouting and carries farther if you are trapped.", "Multi-tool or knife, tape, rope, waterproof zip bags.", "Waterproof pouch or phone case to protect documents and electronics.", "Fire blanket or small fire extinguisher. Learn how to use it beforehand.", "Paper map and evacuation routes, usable when your phone is dead.", "Documents, cash and data", "ID card, health insurance card, copy of driver license, plus bank passbook and insurance information.", "Cash in small bills and coins. ATMs and mobile payments may not work during disasters.", "A paper list of emergency contacts, including someone outside your county or region.", "Recent photos of family members, to help find them if you are separated.", "Photograph key documents and back them up on both cloud storage and a flash drive.", "Extra for family members", "Babies and toddlers: formula, bottles, diapers, baby food, comfort toys, child-size masks.", "Older adults: medicine, denture care, mobility aids, warm clothing, soft food.", "Chronic illness or disability: medicine, batteries for medical devices, a medical history summary, and needed assistive devices.", "Pets: food and water, carrier, leash, vaccination records.", "Packing and upkeep", "Pack so an adult can carry it easily, with heavy items close to the back.", "Keep it by the front door, bedside or another easy-to-reach spot, not buried in storage.", "Check every six months and replace food, water, medicine and batteries that are about to expire.", "Put each family member's name, blood type, allergies and emergency contact on their own bag.", "Everyday preparedness (rolling stock)", "Buy a little extra of what you normally eat and use, and replace each item as you use it, so you never need to stockpile food that expires. When disaster strikes, the stock is already at home.", "How to do it", "Start with 3 days of supplies, then add more as you can.", "Use the oldest first and restock with new: put new items at the back and old ones at the front.", "Write the purchase or expiry date on the package and keep items in a fixed place.", "Whenever you shop, glance at your stock and fill any gaps.", "Good items to keep in rolling stock", "Drinking water, rice, noodles, canned food, instant noodles, ready-to-eat food, dry snacks.", "Toilet paper, wet wipes, trash bags, feminine hygiene products, diapers.", "Medicine your family uses, pet food, batteries.", "A portable stove and gas canisters, used in a ventilated place.", "How it differs from the emergency kit", "Emergency kit: carried when you leave home. Light, and kept where you can grab it.", "Everyday stock: used when sheltering at home or waiting for help. It can be larger.", "Handbooks", "Handbooks are grouped into general disaster handbooks and national defense handbooks. Links open in a new tab or download. We recommend saving them to your phone in advance so you can read them offline.", "General disaster handbooks", "Taiwan Public Safety Guide", "Published by the Whole-of-Society Defense Resilience Agency, Ministry of National Defense (Traditional Chinese).", "Taipei Disaster Prevention: Go Now (Chinese)", "Disaster handbook published by the Taipei City Government.", "Tokyo Living Disaster Prevention", "Published by the Tokyo Metropolitan Government.", "Tokyo Bousai", "Published by the Tokyo Metropolitan Government. Covers preparation and response for many types of disaster.", "Singapore Emergency Handbook (Chinese edition, 2026)", "Emergency preparedness handbook published by the Singapore Civil Defence Force (SCDF).", "Disaster Prevention Handbook (Qianzhen District Office, Kaohsiung)", "Covers earthquakes, typhoons, fires, dengue and tsunamis. Short and easy to read; the contact numbers are specific to Kaohsiung.", "National defense handbooks", "National Defense Response Handbook", "Published by the Whole-of-Society Defense Resilience Agency, Ministry of National Defense.", "Downloads", "Handbooks by city and county", "Local editions compiled by the agency. Choose the county or city where you live.", "Local handbooks (Kaohsiung, Taipei) list shelters and phone numbers that apply only to that city. If a link does not open, search the agency's website for the handbook title.", "Disaster-related websites", "Check disaster risk and live reservoir levels for your area. Links open in a new tab.", "Website", "NCDR: 3D Disaster Potential Map", "Look up disaster potential across Taiwan on a 3D map.", "Website", "NCDR: Climate Change Disaster Risk Map", "Look up climate change disaster risk maps.", "Website", "Water Resources Agency: Reservoir Status", "Look up live water levels of reservoirs.", "Website", "MOI Fire Prevention Museum Downloads", "Disaster-awareness materials and posters from the Ministry of the Interior fire prevention museum.", "Family disaster plan", "Fill it in, take a screenshot and send it to your family.", "Nearby evacuation site", "Family meeting point if separated", "Out-of-area contact: name and phone", "Family members who need special care (older adults, babies, pets)", "Other notes", "Disclaimer", "This page is a general compilation of disaster information. It is not professional advice and does not guarantee completeness, timeliness or suitability for your situation.", "For actual evacuation and response, follow the latest announcements and instructions from government, fire, weather and defense agencies. In an emergency, call 119, 110 or 118 immediately.", "First aid, medicine, mask and battery content is general guidance. Consult a doctor or pharmacist, or read the product instructions, before use.", "Copyright in handbooks and websites belongs to their original agencies. This page only provides links, does not represent those agencies and has no affiliation with them. Links may change or stop working; the original site prevails.", "Your family plan and checklist stay on your own device. This page does not upload or collect them.", "The creator is not liable for any loss arising from use of, or inability to use, this page (except where required by law).", "Website", "MOI National Police Agency: Air-Raid Shelter Information", "Look up air-raid shelter information near your home.", "Created by Samuel Huang | Last updated: October 2026", "For Visitors to Taiwan", "What to do if something happens while you travel.", "1. Emergency numbers", "Number", "Service", "Fire, ambulance", "Police", "Coast Guard, sea rescue", "Hotline for foreign residents and visitors (Chinese, English, Japanese; 24 hours). From abroad: +886-800-001990", "Tourist hotline (24 hours; Chinese, English, Japanese, Korean)", "Give your location: address, landmark or hotel name.", "Contact your representative office (see the next item) and your travel insurer.", "3. In a disaster", "Earthquake: drop, cover and hold on.", "Strong shaking near the sea: go to high ground at once, without waiting for a warning.", "Typhoon: stay indoors. Flights and public transport may be suspended, so ask your hotel for updates.", "Air-raid siren: go to the nearest reinforced concrete building or underground parking garage. Stay away from windows.", "4. Before you go out", "Ask where the emergency exits and nearest shelter are.", "Carry a passport copy, a medication list and a charged power bank.", "Buy travel insurance that covers medical care and evacuation.", "5. Phrases for help", "Phone alerts may be in Chinese only. Show these phrases to people nearby.", "Chinese", "English meaning", "Please help me", "I need a doctor", "Please call an ambulance", "Where is the shelter?", "I am a foreigner. Please speak slowly.", "Emergency radio frequencies", "When power and internet are down, a radio is a key way to get official updates.", "Type", "Station", "Frequency", "Use and notes", "FM radio", "Police Radio Station (national network)", "Taipei, New Taipei, Taoyuan and other major cities nationwide", "FM radio", "Police Radio, Taichung", "Central Taiwan (live traffic and disaster reports)", "FM radio", "Police Radio, Kaohsiung", "Southern Taiwan (live traffic and disaster reports)", "AM radio", "BCC News Network (Taipei / Taoyuan)", "Backup news channel for northern Taiwan during wide blackouts", "How to use", "Keep a hand-crank or battery radio and spare batteries.", "Test it now and note the frequencies for your area.", "In a disaster, switch on the radio and follow official instructions.", "Notes", "Frequencies vary by region. Check each station's official website.", "Signals can be weak in mountains and indoors. Move near a window or outside.", "Save batteries by switching the radio off when not listening.", "Trust only official and reliable sources. Do not forward unverified information.", "AM radio", "BCC News Network (Taichung / Kaohsiung)", "Backup news channel for central and southern Taiwan", "Frequencies may be overlaid by foreign stations spreading false information. Be cautious of content from unknown sources and follow official announcements."], "kit": ["Drinking water (3 liters per person per day, for 3 days)", "Dry food and canned food", "Flashlight and spare batteries", "Power bank and charging cables", "First aid kit and regular medicine", "Whistle (for signaling when trapped)", "Masks and personal hygiene items", "Cash and copies of ID", "Warm clothing and a light rain jacket", "Radio (hand-crank or battery)"]};
+const L={"ja": {"0": "災害の前に備えれば、", "1": "いざという時も落ち着いて行動できます", "2": "大切なのは3つ：身を守る方法を知る、物資を備える、家族と集合場所を決める。まず10分、今から始めましょう。", "3": "消防・救急", "4": "警察・通報・緊急", "5": "海巡・通報・海上救助", "6": "災害用伝言板", "7": "災害が起きたら", "8": "災害の種類を選んで、すべきこと・避けることを確認します。", "9": "地震", "10": "津波", "11": "台風", "12": "洪水", "13": "戦争", "61": "防災リュックのチェックリスト", "62": "用意できたものにチェック。進み具合はこの端末に保存されます。", "230": "外国人旅行者の方へ", "231": "旅行中に何かあったときの対応です。", "232": "1. 緊急電話", "233": "番号", "234": "サービス", "235": "消防・救急", "236": "警察", "237": "海巡（海上救助）", "238": "外国人向け生活相談ホットライン（中国語・英語・日本語、24時間）。海外から：+886-800-001990", "239": "旅行者向けホットライン（24時間、中国語・英語・日本語・韓国語）", "240": "場所を伝える：住所、目印、ホテル名。", "241": "代表処（次の項目を参照）と旅行保険会社に連絡する。", "242": "3. 災害が起きたら", "243": "地震：姿勢を低くし、頭を守り、揺れが収まるまで動かない。", "244": "海辺で強い揺れを感じたら、警報を待たずにすぐ高台へ避難する。", "245": "台風：屋内にとどまる。航空便や交通機関が止まることがあるので、ホテルに確認する。", "246": "防空警報：近くの鉄筋コンクリートの建物か地下駐車場に避難し、窓から離れる。", "247": "4. 外出前に", "248": "ホテルで非常口と最寄りの避難所を確認する。", "249": "パスポートのコピー、薬のリスト、充電済みのモバイルバッテリーを持ち歩く。", "250": "医療と緊急搬送をカバーする旅行保険に加入する。", "251": "5. 助けを求めるフレーズ", "252": "スマホの警報が中国語だけの場合があります。近くの人にこの表を見せてください。", "253": "中国語", "254": "日本語", "kit": ["飲料水（1人1日3リットル、3日分）", "乾パン・缶詰などの保存食", "懐中電灯と予備電池", "モバイルバッテリーと充電ケーブル", "救急セットと常備薬", "笛（閉じ込められたときの合図用）", "マスクと衛生用品", "現金と身分証のコピー", "防寒着と軽いレインコート", "ラジオ（手回し式または電池式）"], "14": "揺れている間", "15": "姿勢を低くし、丈夫な机の下で頭と首を守って、揺れが収まるまでじっとしている。", "16": "窓、戸棚、吊り下げ照明から離れる。", "17": "屋外では、建物、看板、電線から離れる。", "18": "慌てて階段に向かったり、エレベーターに乗ったりしない。", "19": "揺れが収まったら", "20": "ガスと電気を止め、靴を履く。", "21": "階段で避難し、落下物に注意する。", "22": "余震に備え、公的な放送の指示に従う。", "23": "あらかじめ知っておくこと", "24": "自宅、学校、職場が沿岸や河口の低地にないか確認する。", "25": "最寄りの高台や高い階と、そこまでの経路を確認しておく。", "26": "危険の兆候に気づいたら", "27": "海の近くで強い揺れや長い揺れを感じたとき、または海水が異常に引いたときは、警報を待たずにすぐ高台へ避難する。", "28": "海岸、港、河口から離れる。見物や撮影のために留まらない。", "29": "渋滞を避けるため、できるだけ徒歩で避難する。", "30": "避難中", "31": "津波は何度も来ることがある。第1波が過ぎても戻らない。", "32": "当局が警報を解除してから、低い場所に戻る。", "33": "台風の前に", "34": "ベランダの物を固定するか室内に入れ、排水口を点検する。", "35": "スマホとモバイルバッテリーを満充電にし、飲料水を備える。", "36": "自分のいる地域が浸水や土砂災害の警戒区域か、事前に確認する。", "37": "台風の最中は", "38": "屋内にいて、窓から離れる。", "39": "海、川、山に近づかない。", "40": "自治体の避難指示に従う。「大丈夫だろう」と思わない。", "41": "水位が上がってきたら", "42": "高い場所へ移動し、低い場所の電源を切る。", "43": "流れのある水の中を歩かない。膝まで水があっても危険です。", "44": "アンダーパスや低地の道路に車で入らない。", "45": "水が引いた後は", "46": "電気とガスの安全を確認してから帰宅する。", "47": "浸水した食べ物や飲み物は口にしない。", "48": "片付けのときは手袋と長靴を着用する。", "49": "事前の準備", "50": "自宅近くの防空避難施設（地下室、地下駐車場など）と経路を確認しておく。", "51": "水、食料、薬、現金、モバイルバッテリーを最低3日分備える。", "52": "家族と集合場所を決め、はぐれたときの連絡方法を話し合っておく。", "53": "警報が鳴ったら", "54": "すぐに近くの頑丈な建物か避難施設に入り、窓から離れる。", "55": "スマホの警報、ラジオ、テレビで公的な指示を確認する。", "56": "警察、消防、地域の担当者の誘導に従い、秩序を保って移動する。", "57": "情報と心の持ち方", "58": "政府と信頼できる報道だけを信じ、未確認の情報を拡散しない。", "59": "緊急用に回線を空けるため、通話は控える。", "60": "不安になったら、ゆっくり呼吸し、家族と連絡を取り続ける。", "212": "家族の防災計画", "213": "記入したらスクリーンショットを撮り、家族に送りましょう。", "214": "近くの避難場所", "215": "はぐれたときの家族の集合場所", "216": "遠方の連絡先（氏名と電話番号）", "217": "特に配慮が必要な家族（高齢者、乳幼児、ペット）", "218": "その他のメモ", "219": "免責事項", "220": "本ページは防災情報を一般的にまとめたものです。専門的な助言ではなく、内容の完全性・即時性、およびお客様の状況への適合性を保証するものではありません。", "221": "実際の避難・対応は、政府、消防、気象、国防の各機関が発表する最新の情報と指示に従ってください。緊急時はただちに 119、110、118 に通報してください。", "222": "応急手当、薬、マスク、電池に関する内容は一般的な目安です。使用前に医師や薬剤師に相談するか、製品の説明書をご確認ください。", "223": "手引きやウェブサイトの内容および著作権は、各発行元に帰属します。本ページはリンクを提供するのみで、各機関を代表するものではなく、関係もありません。リンクは変更・無効になる場合があり、内容は元のサイトを優先します。", "224": "家族の防災計画とチェックリストの内容は、お使いの端末にのみ保存され、本ページがアップロードや収集をすることはありません。", "225": "本ページの利用または利用不能により生じた損害について、制作者は賠償責任を負いません（法令で別途定めがある場合を除く）。", "229": "制作：Samuel Huang｜最終更新：2026年10月", "63": "防災リュックの装備ガイド", "64": "項目を開くと、何を買うか、どう選ぶかが分かります。2セット用意しましょう：避難用の持ち出しリュックと、自宅の備蓄品です。", "65": "電池と電源", "66": "電池", "67": "サイズ", "68": "用途", "69": "ポイント", "70": "アルカリ／マンガン乾電池", "71": "単3形、単4形", "72": "リモコン、時計、一般的な懐中電灯、ラジオ", "73": "安価で入手しやすい。アルカリ電池の保存期間は約5〜10年。マンガン電池は容量が小さく液漏れしやすいため、防災リュックには不向きです。", "74": "リチウム電池（充電不可）", "75": "単3形、単4形", "76": "リュック内の懐中電灯、ヘッドライト、ラジオ", "77": "保存期間は約20年で、低温に強い。リュックには最適。価格は高めで、充電はできません。", "78": "リチウムイオン電池（充電式）", "79": "強力な懐中電灯、ヘッドライト", "80": "約3.7Vで大容量。専用充電器が必要で、単3形の機器には使えません。", "81": "ニッケル水素電池（充電式）", "82": "単3形、単4形", "83": "普段使いの家電・機器", "84": "繰り返し使えますが、充電には電源が必要です。", "85": "コイン形電池", "86": "CR2032など", "87": "電子体温計、小型ライト、車のキーレス", "88": "幼児が誤飲すると危険です。手の届かない場所に保管してください。", "89": "機器の電池サイズを統一し、各サイズを2組ずつ予備に持つ。", "90": "新旧の電池や異なるメーカーの電池を混ぜて使わない。", "91": "18650電池は、保護回路付きで信頼できるメーカーの製品を選び、専用充電器を使う。鍵や硬貨と一緒にバラで持ち歩かない。", "92": "18650電池を長期保管するときは、半分ほど充電した状態で涼しく乾燥した場所に置く。膨らんだり液漏れしたものは使わない。", "93": "モバイルバッテリーは10,000〜20,000mAhがおすすめ。3〜6か月ごとに満充電にし、充電ケーブルも用意する。", "94": "両手が空くヘッドライトが便利。余震時の火災の恐れがあるため、ろうそくは避ける。", "95": "手回し式やソーラー式のラジオは、小型の充電器やライトとしても使える。", "96": "マスクと呼吸の保護", "97": "種類", "98": "主な用途", "99": "ポイント", "100": "医療用マスク（平型）", "101": "飛沫や大きな粉じんを防ぐ。避難所での感染予防に役立つ", "102": "細かい煙の捕集力は限定的で、側面にすき間ができやすい", "103": "N95、KN95、KF94などの高性能マスク", "104": "火災の煙、灰、倒壊時の粉じん、微粒子を防ぐ", "105": "顔にぴったり密着して初めて効果がある。空気漏れを感じないこと。認証済みの製品を選ぶ。", "106": "活性炭マスク", "107": "においを軽減する", "108": "防毒マスクではない。微粒子の捕集性能は製品により異なる。", "109": "防じんゴーグル（併用）", "110": "粉じんや破片から目を守る", "111": "眼鏡を使う人は、眼鏡の上から着けられるタイプを選ぶ。", "112": "1人あたり、医療用マスクを最低5〜10枚、高性能マスクを数枚用意する。", "113": "幼児には子ども用サイズが必要。大人用マスクは小さな顔に密着しないため、医師や薬剤師に相談する。", "114": "呼吸器の持病がある人は、高性能マスクを使う前に医師に相談する。", "115": "マスクは一酸化炭素や有毒ガスを防げません。化学物質の漏えいやガス事故では、公的な指示に従って避難してください。", "116": "水と食料", "117": "水", "118": "1人1日約3リットル（飲用と最低限の衛生用）を、最低3日分備える。", "119": "ペットボトルの賞味期限を確認し、定期的に入れ替える。", "120": "断水に備え、浄水タブレットや携帯用浄水器も用意する。", "121": "食料", "122": "調理不要で長持ちする高カロリーの食品を選ぶ：缶詰、栄養バー、クラッカー、ナッツ、ドライフルーツ、アルファ米、ジャーキー。", "123": "缶切り、使い捨て食器、塩・砂糖の小袋も加える。", "124": "アレルギー、ベジタリアン、高齢者や幼児向けのやわらかい食事など、家族の食事制限に配慮する。", "125": "カップ麺など加熱が必要な食品には、携帯用コンロとガスボンベが必要。風通しのよい場所で使う。", "126": "応急手当と薬", "127": "基本の救急セット：絆創膏、ガーゼ、弾性包帯、三角巾、医療用テープ、滅菌生理食塩水、ヨードまたはアルコール綿、使い捨て手袋、はさみ、ピンセット、エマージェンシーブランケット。", "128": "持病の薬を最低7日分備え、薬名と用量を書いたリストを添える。", "129": "解熱鎮痛薬、胃腸薬、アレルギー薬などの市販薬を必要に応じて用意し、使用前に医師や薬剤師に相談する。", "130": "予備の眼鏡またはコンタクトレンズと洗浄液、補聴器の電池など、個人の必需品。", "131": "止血帯などの高度な用品は、正しく使うために訓練が必要。先に救急講習を受ける。", "132": "衛生と保温", "133": "衛生：ウェットティッシュ、トイレットペーパー、石けんまたは手指消毒剤、歯ブラシと歯みがき粉、タオル、ごみ袋。", "134": "非常用トイレ：水や電気が止まったときは、凝固剤付きの携帯トイレ袋が非常に役立つ。", "135": "生理用品。乳児のいる家庭は、おむつ、粉ミルク、哺乳瓶も。", "136": "衣類：軽いレインコート、防寒着、替えの下着と靴下、帽子。", "137": "身を守る装備：丈夫な靴か長靴、作業用手袋、地震時に頭を守るヘルメット。", "138": "毛布やアルミ保温シートはコンパクトで、低体温症のリスクを大きく減らせる。", "139": "道具と合図", "140": "笛：閉じ込められたとき、声を出すより体力を使わず、遠くまで届く。", "141": "マルチツールまたはナイフ、テープ、ロープ、防水ジッパー袋。", "142": "書類と電子機器を守る防水ポーチやスマホ用防水ケース。", "143": "防火ブランケットまたは小型消火器。使い方を事前に覚えておく。", "144": "紙の地図と避難経路。スマホの電池が切れても使える。", "145": "書類・現金・データ", "146": "身分証、健康保険証、運転免許証のコピー、通帳と保険の情報。", "147": "小額紙幣と硬貨の現金。災害時はATMやスマホ決済が使えないことがある。", "148": "県外・地域外の人を含む緊急連絡先の紙のリスト。", "149": "はぐれたときに探しやすいよう、家族の最近の写真。", "150": "重要書類は写真に撮り、クラウドとUSBメモリの両方にバックアップする。", "151": "家族に応じた追加品", "152": "乳幼児：粉ミルク、哺乳瓶、おむつ、離乳食、安心できるおもちゃ、子ども用マスク。", "153": "高齢者：薬、入れ歯の手入れ用品、歩行補助具、防寒着、やわらかい食事。", "154": "持病・障害のある人：薬、医療機器の電池、病歴のメモ、必要な補助具。", "155": "ペット：食料と水、キャリー、リード、予防接種の記録。", "156": "詰め方と保守", "157": "大人が楽に背負える重さにし、重い物は背中に近い位置に入れる。", "158": "玄関やベッドのそばなど、すぐ取り出せる場所に置き、収納の奥にしまい込まない。", "159": "半年ごとに点検し、期限が近い食料、水、薬、電池を入れ替える。", "160": "家族一人ひとりのリュックに、名前、血液型、アレルギー、緊急連絡先を書いておく。", "161": "日常備蓄（ローリングストック）", "162": "普段食べている物・使っている物を少し多めに買い、使った分だけ補充します。期限切れの食料をため込む必要がなく、災害時にはすでに家にストックがあります。", "163": "やり方", "164": "まず3日分から始め、余裕ができたら増やす。", "165": "古い物から使い、新しい物を補充する。新しい物は奥に、古い物は手前に置く。", "166": "購入日か賞味期限を包装に書き、決まった場所に保管する。", "167": "買い物のたびにストックを確認し、足りない物を補う。", "168": "ローリングストックに向く物", "169": "飲料水、米、麺類、缶詰、カップ麺、すぐ食べられる食品、乾き物のおやつ。", "170": "トイレットペーパー、ウェットティッシュ、ごみ袋、生理用品、おむつ。", "171": "家族が使う薬、ペットフード、電池。", "172": "携帯用コンロとガスボンベ（風通しのよい場所で使う）。", "173": "防災リュックとの違い", "174": "防災リュック：家を出るときに持ち出す。軽くして、すぐ取れる場所に置く。", "175": "日常備蓄：自宅で避難したり、支援を待つときに使う。量は多めでよい。", "176": "手引き", "177": "手引きは、総合防災の手引きと国防の手引きに分かれます。リンクは新しいタブで開くか、ダウンロードされます。事前にスマホへ保存しておくと、オフラインでも読めます。", "178": "総合防災の手引き", "179": "台湾 全民安全ガイド", "180": "国防部 全民防衛動員署が発行（繁体字中国語）。", "181": "台北防災 いますぐ GO（中国語）", "182": "台北市政府が発行した防災の手引き。", "183": "東京くらし防災", "184": "東京都が発行。", "185": "東京防災", "186": "東京都が発行。さまざまな災害への備えと対応をまとめています。", "187": "シンガポール緊急対応ハンドブック（中国語版、2026年）", "188": "シンガポール民間防衛隊（SCDF）が発行した緊急時の備えの手引き。", "189": "災害防救簡易手冊（高雄市前鎮区役所）", "190": "地震、台風、火災、デング熱、津波を扱う。短くて読みやすい。連絡先は高雄市のものです。", "191": "国防の手引き", "192": "全民国防対応ハンドブック", "193": "国防部 全民防衛動員署が発行。", "194": "ダウンロード", "195": "県・市別の手引き", "196": "同署がまとめた各県市版。お住まいの県・市を選んでください。", "197": "地方版の手引き（高雄、台北）に載っている避難所や電話番号は、その市にのみ当てはまります。リンクが開かない場合は、各機関のサイトで手引きの名前を検索してください。", "198": "防災関連ウェブサイト", "199": "お住まいの地域の災害リスクやダムの水位をリアルタイムで確認できます。リンクは新しいタブで開きます。", "200": "ウェブサイト", "201": "国家災害防救科技中心：3D災害ポテンシャルマップ", "202": "台湾各地の災害の危険度を3D地図で調べられます。", "203": "ウェブサイト", "204": "国家災害防救科技中心：気候変動災害リスクマップ", "205": "気候変動による災害リスクの地図を調べられます。", "206": "ウェブサイト", "207": "経済部水利署：ダム水情", "208": "各ダムの水位をリアルタイムで確認できます。", "209": "ウェブサイト", "210": "内政部消防防災館 ダウンロード", "211": "内政部の消防防災館が提供する防災啓発資料とポスター。", "226": "ウェブサイト", "227": "内政部警政署：防空避難施設情報", "228": "お住まいの近くの防空避難施設の情報を調べられます。", "255": "助けてください", "256": "医者が必要です", "257": "救急車を呼んでください", "258": "避難所はどこですか？", "259": "私は外国人です。ゆっくり話してください。", "260": "緊急ラジオ放送の周波数", "261": "停電やネットの断絶時、ラジオは公的な情報を得る大切な手段です。", "262": "種別", "263": "放送局", "264": "周波数", "265": "用途・備考", "266": "FMラジオ", "267": "警察広播電台（全国ネット）", "268": "台北／新北／桃園／全国の主要都市", "269": "FMラジオ", "270": "警察広播電台 台中支局", "271": "中部地域（リアルタイムの道路状況と被害情報）", "272": "FMラジオ", "273": "警察広播電台 高雄支局", "274": "南部地域（リアルタイムの道路状況と被害情報）", "275": "AMラジオ", "276": "中広ニュースネット（台北／桃園）", "277": "北部地域の大規模停電時の予備ニュース手段", "287": "AMラジオ", "288": "中広ニュースネット（台中／高雄）", "289": "中部・南部地域の予備ニュース手段", "278": "使い方", "279": "手回し式または電池式のラジオと、予備の電池を複数用意する。", "280": "普段から試聴し、お住まいの地域の周波数を控えておく。", "281": "災害時はラジオをつけ、公的な指示に従って行動する。", "282": "注意事項", "283": "周波数は地域により異なります。各放送局の公式サイトで確認してください。", "284": "山間部や屋内では電波が弱いことがあります。窓際や屋外に移動してみてください。", "285": "電池を節約するため、聞かないときは電源を切る。", "286": "公的機関や信頼できる報道の情報だけを信じ、未確認の情報を広めない。", "290": "他国の放送が同じ周波数に重なり、偽情報が流れる場合があります。出所不明の内容には注意し、公式発表を基準にしてください。"}, "ko": {"0": "재난 전에 준비하면", "1": "닥쳤을 때 침착하게 대처할 수 있습니다", "2": "핵심은 세 가지: 몸을 지키는 방법 알기, 물품 준비하기, 가족과 만날 장소 정하기. 지금 10분만 투자해 시작하세요.", "3": "소방·구급", "4": "경찰·신고·긴급", "5": "해경·신고·해상 구조", "6": "재난 안부 게시판", "7": "재난이 발생하면", "8": "재난 유형을 선택해 해야 할 일과 피할 일을 확인하세요.", "9": "지진", "10": "쓰나미", "11": "태풍", "12": "홍수", "13": "전쟁", "61": "비상 가방 체크리스트", "62": "준비한 항목을 체크하세요. 진행 상황은 이 기기에 저장됩니다.", "230": "외국인 여행자를 위한 안내", "231": "여행 중 문제가 생겼을 때의 대처법입니다.", "232": "1. 긴급 전화", "233": "번호", "234": "서비스", "235": "소방, 구급", "236": "경찰", "237": "해경, 해상 구조", "238": "외국인 생활 상담 핫라인 (중국어·영어·일본어, 24시간). 해외에서: +886-800-001990", "239": "여행자 핫라인 (24시간, 중국어·영어·일본어·한국어)", "240": "위치를 알리세요: 주소, 주변 건물, 호텔 이름.", "241": "대표처(다음 항목 참조)와 여행자 보험사에 연락하세요.", "242": "3. 재난이 발생하면", "243": "지진: 몸을 낮추고, 머리를 보호하고, 흔들림이 멈출 때까지 버티세요.", "244": "바닷가에서 강한 흔들림을 느끼면 경보를 기다리지 말고 즉시 높은 곳으로 대피하세요.", "245": "태풍: 실내에 머무르세요. 항공편과 교통이 중단될 수 있으니 호텔에 문의하세요.", "246": "공습경보: 가까운 철근 콘크리트 건물이나 지하 주차장으로 대피하고 창문에서 떨어지세요.", "247": "4. 외출 전에", "248": "숙소에서 비상구와 가까운 대피소를 확인하세요.", "249": "여권 사본, 복용 약 목록, 충전된 보조배터리를 지니세요.", "250": "의료와 긴급 후송을 보장하는 여행자 보험에 가입하세요.", "251": "5. 도움 요청 문구", "252": "휴대전화 경보가 중국어로만 나올 수 있습니다. 주변 사람에게 이 문구를 보여 주세요.", "253": "중국어", "254": "한국어", "kit": ["식수 (1인 하루 3리터, 3일분)", "건조 식품과 통조림", "손전등과 여분 배터리", "보조배터리와 충전 케이블", "구급상자와 상비약", "호루라기 (갇혔을 때 신호용)", "마스크와 위생용품", "현금과 신분증 사본", "방한복과 가벼운 우비", "라디오 (수동 또는 건전지식)"], "198": "재난 관련 웹사이트", "199": "거주 지역의 재난 위험도와 저수지 수위를 실시간으로 확인할 수 있습니다. 링크는 새 탭에서 열립니다.", "200": "웹사이트", "201": "국가재해방재과학기술센터: 3D 재해 위험도 지도", "202": "대만 각지의 재해 위험도를 3D 지도로 조회합니다.", "203": "웹사이트", "204": "국가재해방재과학기술센터: 기후변화 재해 위험 지도", "205": "기후변화에 따른 재해 위험 지도를 조회합니다.", "206": "웹사이트", "207": "경제부 수리서: 저수지 수위 현황", "208": "각 저수지의 실시간 수위를 조회합니다.", "209": "웹사이트", "210": "내정부 소방방재관 자료실", "211": "내정부 소방방재관이 제공하는 방재 홍보 자료와 포스터.", "226": "웹사이트", "227": "내정부 경정서: 방공 대피소 정보", "228": "집 근처의 방공 대피소 정보를 조회합니다.", "255": "도와주세요", "256": "의사가 필요합니다", "257": "구급차를 불러 주세요", "258": "대피소가 어디예요?", "259": "저는 외국인입니다. 천천히 말씀해 주세요.", "14": "흔들리는 동안", "15": "몸을 낮추고 튼튼한 책상 아래에서 머리와 목을 보호하며, 흔들림이 멈출 때까지 버티세요.", "16": "창문, 수납장, 매달린 조명에서 떨어지세요.", "17": "야외에서는 건물, 간판, 전선에서 멀리 떨어지세요.", "18": "서둘러 계단으로 달려가거나 엘리베이터를 타지 마세요.", "19": "흔들림이 멈춘 뒤", "20": "가스와 전기를 끄고 신발을 신으세요.", "21": "계단으로 대피하고, 떨어지는 물건에 주의하세요.", "22": "여진에 대비하고 공식 방송의 안내를 따르세요.", "23": "미리 알아둘 것", "24": "집, 학교, 직장이 해안이나 하구의 저지대에 있는지 확인하세요.", "25": "가까운 높은 지대나 높은 층, 그리고 가는 경로를 알아두세요.", "26": "위험 신호를 느꼈을 때", "27": "바닷가에서 강하거나 긴 흔들림을 느끼거나 바닷물이 이상하게 빠지면, 경보를 기다리지 말고 즉시 높은 곳으로 대피하세요.", "28": "해안, 항구, 하구에서 떨어지세요. 구경이나 사진 촬영을 위해 머무르지 마세요.", "29": "교통 정체를 피하기 위해 가능하면 걸어서 대피하세요.", "30": "대피 중", "31": "쓰나미는 여러 번 올 수 있습니다. 첫 파도가 지나도 돌아가지 마세요.", "32": "당국이 경보를 해제한 뒤에만 낮은 지대로 돌아가세요.", "33": "태풍이 오기 전", "34": "베란다의 물건을 고정하거나 안으로 들이고, 배수구를 점검하세요.", "35": "휴대전화와 보조배터리를 완전히 충전하고 식수를 준비하세요.", "36": "내가 있는 지역이 침수 또는 산사태 경계 구역인지 미리 확인하세요.", "37": "태풍이 오는 동안", "38": "실내에 머물고 창문에서 떨어지세요.", "39": "바다, 계곡, 산에 가까이 가지 마세요.", "40": "정부의 대피 명령을 따르세요. 요행을 바라지 마세요.", "41": "물이 차오를 때", "42": "높은 곳으로 이동하고, 낮은 곳의 전원을 끄세요.", "43": "흐르는 물속을 걸어 들어가지 마세요. 무릎 높이의 물도 이미 위험합니다.", "44": "지하차도나 저지대 도로에 차를 몰고 들어가지 마세요.", "45": "물이 빠진 뒤", "46": "전기와 가스가 안전한지 확인한 뒤에 귀가하세요.", "47": "침수된 음식이나 물은 먹거나 마시지 마세요.", "48": "정리할 때는 장갑과 장화를 착용하세요.", "49": "미리 준비하기", "50": "집 근처의 방공 대피소(지하실, 지하 주차장 등)와 가는 경로를 확인하세요.", "51": "물, 음식, 약, 현금, 보조배터리를 최소 3일분 준비하세요.", "52": "가족과 만날 장소를 정하고, 흩어졌을 때의 연락 방법을 정해 두세요.", "53": "경보가 울리면", "54": "즉시 가까운 튼튼한 건물이나 대피소로 들어가고 창문에서 떨어지세요.", "55": "휴대전화 경보, 라디오, TV로 공식 안내를 확인하세요.", "56": "경찰, 소방관, 지역 담당자의 안내에 따라 질서 있게 이동하세요.", "57": "정보와 마음가짐", "58": "정부와 신뢰할 수 있는 언론만 믿고, 확인되지 않은 정보는 퍼뜨리지 마세요.", "59": "긴급 상황을 위해 회선을 비워 두도록 통화는 줄이세요.", "60": "불안하면 천천히 숨을 쉬고 가족과 계속 연락하세요.", "212": "가족 재난 계획", "213": "작성한 뒤 화면을 캡처해 가족에게 보내세요.", "214": "가까운 대피 장소", "215": "흩어졌을 때 가족 집합 장소", "216": "타지역 연락처 (이름과 전화번호)", "217": "특별한 돌봄이 필요한 가족 (노인, 영유아, 반려동물)", "218": "기타 메모", "219": "면책 사항", "220": "이 페이지는 재난 정보를 일반적으로 정리한 것입니다. 전문적인 조언이 아니며, 내용의 완전성, 최신성, 개인 상황에 대한 적합성을 보장하지 않습니다.", "221": "실제 대피와 대응은 정부, 소방, 기상, 국방 기관이 발표하는 최신 공지와 지시를 따르세요. 긴급 상황에서는 즉시 119, 110 또는 118에 신고하세요.", "222": "응급처치, 약, 마스크, 배터리에 관한 내용은 일반적인 안내입니다. 사용 전에 의사나 약사와 상담하거나 제품 설명서를 확인하세요.", "223": "안내서와 웹사이트의 내용 및 저작권은 각 발행 기관에 있습니다. 이 페이지는 링크만 제공하며, 해당 기관을 대표하지 않고 어떠한 관계도 없습니다. 링크는 변경되거나 작동하지 않을 수 있으며, 내용은 원본 사이트를 기준으로 합니다.", "224": "가족 계획과 체크리스트는 사용자 기기에만 저장되며, 이 페이지는 이를 업로드하거나 수집하지 않습니다.", "225": "이 페이지의 이용 또는 이용 불가로 발생한 손해에 대해 제작자는 배상 책임을 지지 않습니다(법령에 달리 정한 경우 제외).", "229": "제작: Samuel Huang | 최종 업데이트: 2026년 10월", "63": "비상 가방 장비 가이드", "64": "항목을 열면 무엇을 사고 어떻게 고를지 알 수 있습니다. 두 세트를 준비하세요: 대피용 휴대 가방과 집에 두는 비축품입니다.", "65": "배터리와 전원", "66": "배터리", "67": "크기", "68": "용도", "69": "참고", "70": "알칼리/망간 건전지", "71": "AA, AAA", "72": "리모컨, 시계, 일반 손전등, 라디오", "73": "저렴하고 구하기 쉽습니다. 알칼리 전지는 보관 기간이 약 5~10년입니다. 망간 전지는 용량이 작고 액이 새기 쉬워 비상 가방에는 권하지 않습니다.", "74": "리튬 전지 (충전 불가)", "75": "AA, AAA", "76": "비상 가방 속 손전등, 헤드랜턴, 라디오", "77": "보관 기간이 약 20년이며 저온에 강합니다. 비상 가방에 가장 적합합니다. 가격이 비싸고 충전할 수 없습니다.", "78": "리튬 전지 (충전식)", "79": "강력 손전등, 헤드랜턴", "80": "약 3.7V의 대용량입니다. 전용 충전기가 필요하며 AA 기기에는 쓸 수 없습니다.", "81": "니켈수소 충전지", "82": "AA, AAA", "83": "평소 집에서 쓰는 기기", "84": "반복해서 쓸 수 있지만 충전하려면 전원이 필요합니다.", "85": "코인 전지", "86": "CR2032 등", "87": "전자 체온계, 소형 조명, 자동차 키 리모컨", "88": "어린아이가 삼키면 위험합니다. 손이 닿지 않는 곳에 보관하세요.", "89": "기기의 전지 규격을 통일하고, 규격별로 두 세트씩 여분을 두세요.", "90": "새 전지와 헌 전지, 다른 제조사의 전지를 섞어 쓰지 마세요.", "91": "18650 전지는 보호 회로가 있는 믿을 만한 제조사 제품을 고르고 전용 충전기를 사용하세요. 열쇠나 동전과 함께 낱개로 들고 다니지 마세요.", "92": "18650 전지를 오래 보관할 때는 절반 정도 충전한 상태로 서늘하고 건조한 곳에 두세요. 부풀거나 액이 샌 전지는 쓰지 마세요.", "93": "보조배터리는 10,000~20,000mAh를 권합니다. 3~6개월마다 완전 충전하고 충전 케이블도 챙기세요.", "94": "두 손이 자유로운 헤드랜턴이 편리합니다. 여진 때 화재 위험이 있으므로 양초는 피하세요.", "95": "수동식이나 태양광 라디오는 소형 충전기와 조명으로도 쓸 수 있습니다.", "176": "안내서", "177": "안내서는 종합 방재 안내서와 국방 안내서로 나뉩니다. 링크는 새 탭에서 열리거나 다운로드됩니다. 인터넷이 안 될 때를 대비해 미리 휴대전화에 저장해 두세요.", "178": "종합 방재 안내서", "179": "대만 전국민 안전 가이드", "180": "국방부 전민방위동원서에서 발행 (중국어 번체).", "181": "타이베이 방재 지금 바로 GO (중국어)", "182": "타이베이시 정부에서 발행한 방재 안내서.", "183": "도쿄 생활 방재", "184": "도쿄도에서 발행.", "185": "도쿄 방재", "186": "도쿄도에서 발행. 다양한 재난에 대한 대비와 대응을 다룹니다.", "187": "싱가포르 비상 대응 핸드북 (중국어판, 2026)", "188": "싱가포르 민방위대(SCDF)에서 발행한 비상 대비 안내서.", "189": "재해 방지 간이 안내서 (가오슝시 첸전구 구공소)", "190": "지진, 태풍, 화재, 뎅기열, 쓰나미를 다룹니다. 짧고 읽기 쉬우며, 연락처는 가오슝 지역 기준입니다.", "191": "국방 안내서", "192": "전민국방 대응 핸드북", "193": "국방부 전민방위동원서에서 발행.", "194": "다운로드", "195": "시·현별 안내서", "196": "같은 기관이 정리한 각 시·현 판. 거주하는 시·현을 선택하세요.", "197": "지방판 안내서(가오슝, 타이베이)에 실린 대피소와 전화번호는 해당 시에만 적용됩니다. 링크가 열리지 않으면 각 기관 사이트에서 안내서 이름을 검색하세요.", "260": "비상 방송 주파수", "261": "정전이나 인터넷 두절 시, 라디오는 공식 소식을 얻는 중요한 수단입니다.", "262": "구분", "263": "방송국", "264": "주파수", "265": "용도 및 비고", "266": "FM 라디오", "267": "경찰방송국(전국망)", "268": "타이베이/신베이/타오위안/전국 주요 도시", "269": "FM 라디오", "270": "경찰방송 타이중 분국", "271": "중부 지역 (실시간 도로 상황 및 피해 정보)", "272": "FM 라디오", "273": "경찰방송 가오슝 분국", "274": "남부 지역 (실시간 도로 상황 및 피해 정보)", "275": "AM 라디오", "276": "중광뉴스망(타이베이/타오위안)", "277": "북부 지역 대규모 정전 시 예비 뉴스 채널", "287": "AM 라디오", "288": "중광뉴스망(타이중/가오슝)", "289": "중·남부 지역 예비 뉴스 채널", "278": "사용 방법", "279": "수동식 또는 건전지식 라디오와 여분의 건전지를 준비하세요.", "280": "평소에 미리 들어 보고, 거주 지역의 주파수를 적어 두세요.", "281": "재난이 발생하면 라디오를 켜고 공식 안내에 따라 행동하세요.", "282": "유의 사항", "283": "주파수는 지역마다 다릅니다. 각 방송국의 공식 웹사이트에서 확인하세요.", "284": "산간 지역과 실내에서는 신호가 약할 수 있습니다. 창가나 야외로 이동해 보세요.", "285": "건전지를 아끼려면 듣지 않을 때는 전원을 끄세요.", "286": "공식 기관과 신뢰할 수 있는 언론의 정보만 믿고, 확인되지 않은 소식은 퍼뜨리지 마세요.", "290": "다른 나라 방송이 같은 주파수에 겹쳐 가짜 정보를 내보낼 수 있습니다. 출처가 불분명한 내용은 주의하고 공식 발표를 기준으로 삼으세요.", "96": "마스크와 호흡 보호", "97": "종류", "98": "주요 용도", "99": "참고", "100": "의료용 마스크(평면형)", "101": "비말과 큰 먼지를 막습니다. 대피소에서 감염 예방에 도움이 됩니다", "102": "미세한 연기는 거르는 성능이 제한적이고 옆면에 틈이 생기기 쉽습니다", "103": "N95, KN95, KF94 등 고성능 마스크", "104": "화재 연기, 재, 붕괴 먼지, 미세입자를 막습니다", "105": "얼굴에 밀착해야 효과가 있습니다. 공기가 새는 느낌이 없어야 합니다. 인증된 제품을 고르세요.", "106": "활성탄 마스크", "107": "냄새를 줄여 줍니다", "108": "방독면이 아닙니다. 미세입자 차단 성능은 제품마다 다릅니다.", "109": "방진 고글(함께 착용)", "110": "먼지와 파편으로부터 눈을 보호합니다", "111": "안경을 쓴다면 안경 위에 쓸 수 있는 형태를 고르세요.", "112": "1인당 의료용 마스크를 최소 5~10장, 고성능 마스크를 몇 장 준비하세요.", "113": "어린이는 어린이용 크기가 필요합니다. 성인용 마스크는 작은 얼굴에 밀착되지 않으니 의사나 약사와 상담하세요.", "114": "호흡기 질환이 있다면 고성능 마스크를 쓰기 전에 의사와 상담하세요.", "115": "마스크는 일산화탄소나 유독가스를 막지 못합니다. 화학물질 누출이나 가스 사고에서는 공식 안내에 따라 대피하세요.", "116": "물과 식량", "117": "물", "118": "1인당 하루 약 3리터(식수와 최소한의 위생용)를 최소 3일분 준비하세요.", "119": "생수의 유통기한을 확인하고 정기적으로 교체하세요.", "120": "단수에 대비해 정수 알약이나 휴대용 정수기도 준비하세요.", "121": "식량", "122": "조리가 필요 없고 오래 가는 고열량 식품을 고르세요: 통조림, 에너지바, 크래커, 견과류, 말린 과일, 즉석밥, 육포.", "123": "깡통따개, 일회용 식기, 소금·설탕 소포장도 추가하세요.", "124": "알레르기, 채식, 노인과 영유아를 위한 부드러운 음식 등 가족의 식이 제한을 고려하세요.", "125": "컵라면처럼 가열이 필요한 식품에는 휴대용 버너와 가스 캔이 필요합니다. 환기가 잘 되는 곳에서 사용하세요.", "126": "응급처치와 약", "127": "기본 구급상자: 반창고, 거즈, 탄력 붕대, 삼각건, 의료용 테이프, 멸균 생리식염수, 요오드 또는 알코올 솜, 일회용 장갑, 가위, 핀셋, 응급 담요.", "128": "복용 중인 만성질환 약을 최소 7일분 준비하고, 약 이름과 용량을 적은 목록을 함께 두세요.", "129": "해열진통제, 소화제, 알레르기약 등 일반의약품은 필요에 따라 준비하고, 사용 전에 의사나 약사와 상담하세요.", "130": "여분의 안경이나 콘택트렌즈와 세척액, 보청기 배터리 등 개인 필수품.", "131": "지혈대 같은 고급 용품은 올바르게 쓰려면 훈련이 필요합니다. 먼저 응급처치 교육을 받으세요.", "132": "위생과 보온", "133": "위생: 물티슈, 화장지, 비누 또는 손 소독제, 칫솔과 치약, 수건, 쓰레기봉투.", "134": "비상 화장실: 물과 전기가 끊겼을 때 응고제가 든 휴대용 화장실 봉투가 매우 유용합니다.", "135": "생리용품. 영아가 있는 가정은 기저귀, 분유, 젖병도 준비하세요.", "136": "의류: 가벼운 우비, 방한복, 여벌의 속옷과 양말, 모자.", "137": "보호 장비: 튼튼한 신발이나 장화, 작업용 장갑, 지진 때 머리를 보호할 헬멧.", "138": "담요나 알루미늄 보온 시트는 부피가 작고 저체온증 위험을 크게 줄여 줍니다.", "139": "도구와 신호", "140": "호루라기: 갇혔을 때 소리치는 것보다 힘이 덜 들고 더 멀리 들립니다.", "141": "멀티툴 또는 칼, 테이프, 로프, 방수 지퍼백.", "142": "서류와 전자기기를 지켜 주는 방수 파우치나 휴대전화 방수 케이스.", "143": "방화 담요나 소형 소화기. 사용법을 미리 익혀 두세요.", "144": "종이 지도와 대피 경로. 휴대전화가 꺼져도 쓸 수 있습니다.", "145": "서류, 현금, 데이터", "146": "신분증, 건강보험증, 운전면허증 사본, 통장과 보험 정보.", "147": "소액 지폐와 동전 현금. 재난 시 ATM과 모바일 결제가 안 될 수 있습니다.", "148": "다른 지역에 사는 사람을 포함한 비상 연락처를 종이에 적어 두세요.", "149": "흩어졌을 때 찾기 쉽도록 가족의 최근 사진.", "150": "중요 서류는 사진으로 찍어 클라우드와 USB 두 곳에 백업하세요.", "151": "가족별 추가 준비물", "152": "영유아: 분유, 젖병, 기저귀, 이유식, 안심 인형, 어린이용 마스크.", "153": "노인: 약, 틀니 관리용품, 보행 보조기구, 방한복, 부드러운 음식.", "154": "만성질환·장애가 있는 사람: 약, 의료기기 배터리, 병력 요약, 필요한 보조기구.", "155": "반려동물: 사료와 물, 이동장, 목줄, 예방접종 기록.", "156": "짐 꾸리기와 관리", "157": "성인이 편하게 멜 수 있는 무게로 꾸리고, 무거운 물건은 등 쪽에 가깝게 넣으세요.", "158": "현관이나 침대 옆처럼 바로 꺼낼 수 있는 곳에 두고, 창고 깊숙이 넣어 두지 마세요.", "159": "6개월마다 점검하고, 기한이 다 된 식량, 물, 약, 배터리를 교체하세요.", "160": "가족 각자의 가방에 이름, 혈액형, 알레르기, 비상 연락처를 적어 두세요.", "161": "일상 비축(롤링 스톡)", "162": "평소 먹고 쓰는 것을 조금 더 사 두고, 쓴 만큼 채워 넣습니다. 기한이 지난 식품을 쌓아 둘 필요가 없고, 재난이 닥쳤을 때 이미 집에 비축분이 있습니다.", "163": "방법", "164": "먼저 3일분으로 시작하고, 여유가 생기면 늘리세요.", "165": "오래된 것부터 쓰고 새것을 채우세요. 새것은 뒤에, 오래된 것은 앞에 두세요.", "166": "구입일이나 유통기한을 포장에 적고 정해진 곳에 보관하세요.", "167": "장을 볼 때마다 비축분을 확인하고 부족한 것을 채우세요.", "168": "롤링 스톡에 알맞은 것", "169": "식수, 쌀, 면류, 통조림, 컵라면, 바로 먹을 수 있는 식품, 마른 간식.", "170": "화장지, 물티슈, 쓰레기봉투, 생리용품, 기저귀.", "171": "가족이 쓰는 약, 반려동물 사료, 배터리.", "172": "휴대용 버너와 가스 캔(환기가 잘 되는 곳에서 사용).", "173": "비상 가방과의 차이", "174": "비상 가방: 집을 나설 때 들고 갑니다. 가볍게 꾸리고 바로 집을 수 있는 곳에 두세요.", "175": "일상 비축: 집에서 대피하거나 지원을 기다릴 때 씁니다. 양이 더 많아도 됩니다."}};
+const ZH=[];document.querySelectorAll("[data-i]").forEach(e=>{ZH[e.dataset.i]=e.textContent});
+const itemsZH=items.slice();
+const TITLE={zh:"防災準備指南",en:"Disaster Preparedness Guide",ja:"防災ガイド",ko:"재난 대비 안내"};
+const HL={zh:"zh-Hant",en:"en",ja:"ja",ko:"ko"};
+function pick(l,i){if(l==="zh")return ZH[i];const d=L[l];return(d&&d[i])||EN.t[i]}
+function setLang(l){lang=l;
+document.querySelectorAll("[data-i]").forEach(e=>{e.textContent=pick(l,e.dataset.i)});
+document.querySelectorAll("#kit li span").forEach((e,i)=>{const d=L[l];e.textContent=l==="zh"?itemsZH[i]:(d&&d.kit?d.kit[i]:EN.kit[i])});
+document.documentElement.lang=HL[l];document.title=TITLE[l];
+document.getElementById("lg").value=l;store.set("lang",l);upd()}
+document.getElementById("lg").onchange=e=>setLang(e.target.value);
+const sv=store.get("lang");if(sv&&HL[sv]&&sv!=="zh")setLang(sv);
+
+const DT={zh:{t:"確認撥打電話？",p:"即將撥打：",w:"非緊急情況請勿撥打。",y:"撥打",n:"取消"},en:{t:"Place this call?",p:"You are about to call:",w:"Do not call unless it is an emergency.",y:"Call",n:"Cancel"},ja:{t:"電話をかけますか？",p:"発信先：",w:"緊急時以外はかけないでください。",y:"発信",n:"キャンセル"},ko:{t:"전화를 걸까요?",p:"발신 번호:",w:"긴급 상황이 아니면 걸지 마세요.",y:"전화 걸기",n:"취소"}};
+(function(){
+const dlg=document.getElementById("dlg"),num=document.getElementById("dlgNum"),svc=document.getElementById("dlgSvc"),tt=document.getElementById("dlgT"),pp=document.getElementById("dlgP"),ww=document.getElementById("dlgW"),yes=document.getElementById("dlgY"),no=document.getElementById("dlgN");
+let target=null,opener=null;
+function close(){dlg.hidden=true;target=null;if(opener)opener.focus()}
+document.addEventListener("click",e=>{const a=e.target.closest('a[href^="tel:"]');if(!a)return;e.preventDefault();opener=a;target=a.getAttribute("href");const d=DT[lang]||DT.zh;
+tt.textContent=d.t;pp.textContent=d.p;ww.textContent=d.w;yes.textContent=d.y;no.textContent=d.n;
+num.textContent=decodeURIComponent(target.slice(4));
+const sm=a.querySelector("small");svc.textContent=sm?sm.textContent:"";dlg.hidden=false;no.focus()});
+yes.onclick=()=>{const t=target;close();if(t)location.href=t};
+no.onclick=close;
+dlg.addEventListener("click",e=>{if(e.target===dlg)close()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!dlg.hidden)close()});
+})();
+</script>
+</body>
+</html>
